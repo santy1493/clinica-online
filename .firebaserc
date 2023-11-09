@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "clinica-cf4a7": {
+      "hosting": {
+        "tp_clinica": [
+          "clinica-santiagofossa"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "clinica-cf4a7"
+  }
+}

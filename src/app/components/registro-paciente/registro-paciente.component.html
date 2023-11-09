@@ -1,0 +1,62 @@
+<div class="container col-lg-8 mt-4">
+    <div class="card">
+      <form [formGroup]="form" (ngSubmit)="registrar()">
+        <div class="row justify-content-center">
+          <h1 class="text-center my-3">Registro</h1>
+            <div class="col-5 mb-3">
+              <label>Nombre</label>
+              <input type="text" placeholder="Ingrese su nombre" class="form-control" formControlName="nombre">
+            </div>
+            <div class="col-5 mb-3">
+              <label>Apellido</label>
+              <input type="text" placeholder="Ingrese su apellido" class="form-control" formControlName="apellido">
+            </div>
+            <div class="col-5 mb-3">
+              <label>DNI</label>
+              <input type="text" placeholder="Ingrese su DNI" class="form-control" formControlName="dni">
+            </div>
+            <div class="col-5 mb-3">
+              <label>Edad</label>
+              <input type="number" class="form-control" formControlName="edad">
+            </div>
+            <div class="col-6 col-lg-7 mb-3" *ngIf="!obraSocialCheck.checked">
+              <label>Obra Social</label>
+              <select class="form-select" formControlName="obraSocial">
+                <option selected value="">Seleccione...</option>
+                <option [value]="true">Sí</option>
+                <option [value]="false">No</option>
+              </select>
+            </div>
+            <div class="col-6 col-lg-7 mb-3" *ngIf="obraSocialCheck.checked">
+              <label>Obra social</label>
+              <input type="text" placeholder="Ingrese su obra social" class="form-control" formControlName="obraSocial">
+            </div>
+            <div class="col-4 col-lg-3 d-flex justify-content-center align-items-center">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" (change)="true" #obraSocialCheck>
+                <label class="form-check-label" for="flexSwitchCheckDefault">Ingresar otra obra social</label>
+              </div>
+            </div>
+            <div class="col-10 mb-3">
+              <label>Correo</label>
+              <input type="text" placeholder="Ingrese su correo" class="form-control" formControlName="email">
+            </div>
+            <div class="col-5 mb-3">
+              <label>Contraseña</label>
+              <input type="password" placeholder="Ingrese su contraseña" class="form-control" formControlName="password">
+            </div>
+            <div class="col-5 mb-3">
+              <label>Repetir contraseña</label>
+              <input type="password" placeholder="Repita su contraseña" class="form-control" formControlName="repeatPassword">
+            </div>
+            <div class="col-10 mb-3">
+              <label>Fotos</label>
+              <input type="file" class="form-control" multiple (change)="onSelectFile($event)">
+            </div>
+            <div class="col-3 mb-5  d-flex justify-content-center">
+              <button class="btn btn-primary"  type="submit" [disabled]="!form.valid">Registrar</button>
+            </div>
+        </div>
+      </form>
+    </div>
+  </div>

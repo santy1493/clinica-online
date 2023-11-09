@@ -65,4 +65,13 @@ export class LoginComponent {
       this.form.controls['password'].setValue('123456');
     }
   }
+
+  completarLogin2(email: string) {
+    if(this.form.controls['email']) {
+      this.form.controls['email'].setValue(email);
+    }
+    if(this.form.controls['password']) {
+      this.form.controls['password'].setValue('123456');
+    }
+  }
 }

@@ -26,7 +26,8 @@ const routes: Routes = [
   },
   { 
     path: 'home',
-    canActivate: [ EmailGuard, ActivoGuard ],
+    canActivate: [ AuthGuard, EmailGuard, ActivoGuard ],
+    data: { authGuardPipe: redirectUnauthorizedToLogin },
     component: HomeComponent
   },
   { 

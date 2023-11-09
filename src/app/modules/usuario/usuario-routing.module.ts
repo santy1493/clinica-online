@@ -5,11 +5,11 @@ import { RoleGuard } from 'src/app/guards/role.guard';
 
 const routes: Routes = [
   { 
-    path: '',
-    /*canActivate: [ RoleGuard ],
+    path: 'admin',
+    canActivate: [ RoleGuard ],
     data: {
       roles: ['admin']
-    },*/
+    },
     component: SeccionUsuariosComponent
   },
 ];

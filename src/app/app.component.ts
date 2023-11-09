@@ -1,25 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { filter } from 'rxjs/operators';
+import { FirestoreService } from './services/firestore.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  
   title = 'tp_clinica';
 
   user$ = this.auth.authState$.pipe(
     filter(state => state ? true : false)
   );
 
-  loading = false;
+  user: any;
+  esAdmin: boolean = false;
+  esPaciente: boolean = false;
+  esEspecialista: boolean = false;
+
+  loading = true;
 
   constructor(
     private router: Router,
-    private auth: AuthService
+    private auth: AuthService,
+    private firestore: FirestoreService
     ) {
     this.router.events.subscribe((event: any) => {
       switch (true) {
@@ -41,7 +49,30 @@ export class AppComponent {
     });
   }
 
+  ngOnInit(): void {
+    this.auth.authState$.subscribe(res => {
+      if(res != null ) {
+        this.firestore.obtenerUsuario(res.email).subscribe(res => {
+          this.user = res[0];
+          if(this.user.rol === 'admin') {
+            this.esAdmin = true;
+          }
+          else if(this.user.rol === 'paciente') {
+            this.esPaciente = true;
+          }
+          else if(this.user.rol === 'especialista') {
+            this.esEspecialista = true;
+          }
+        });
+      }
+      this.loading = false
+    });
+  }
+
   async logout() {
+    this.esAdmin = false;
+    this.esEspecialista = false;
+    this.esPaciente = false;
     await this.auth.logout();
     window.location.reload();
     //this.router.navigate(['/login']);

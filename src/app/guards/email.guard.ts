@@ -17,6 +17,7 @@ import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { take, map, tap } from 'rxjs/operators';
 import { emailVerified } from '@angular/fire/auth-guard';
+import { SwalService } from '../services/swal.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,8 @@ export class EmailGuard implements CanActivate {
 
   constructor(
     public auth: AuthService,
-    public router: Router
+    public router: Router,
+    public swal: SwalService
   ) { }
 
   canActivate(
@@ -49,7 +51,7 @@ export class EmailGuard implements CanActivate {
 
     return this.auth.authState$?.pipe(
       map((user) => Boolean(user && user.emailVerified)),
-      tap(emailVerified => emailVerified == false && this.router.navigate(['verificar-email']) && console.log('email no verificado'))
+      tap(emailVerified => emailVerified == false && this.router.navigate(['/login']))
     )
 
   }

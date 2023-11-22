@@ -26,42 +26,43 @@ const routes: Routes = [
   },
   { 
     path: 'home',
-    canActivate: [ AuthGuard, EmailGuard, ActivoGuard ],
-    data: { authGuardPipe: redirectUnauthorizedToLogin },
+    //canActivate: [ EmailGuard, ActivoGuard ],
+    //data: { authGuardPipe: redirectUnauthorizedToLogin },
     component: HomeComponent
   },
   { 
     path: 'login',
-    canActivate: [ AuthGuard ],
-    data: { authGuardPipe: redirectLoggedInToHome },
+    //canActivate: [ AuthGuard ],
+    //data: { authGuardPipe: redirectLoggedInToHome },
     component: LoginComponent
   },
   {
     path: 'registro',
-    canActivate: [ AuthGuard ],
-    data: { authGuardPipe: redirectLoggedInToHome },
+    //canActivate: [ AuthGuard ],
+    //data: { authGuardPipe: redirectLoggedInToHome },
     loadChildren: () =>
       import('./modules/registro/registro.module').then((m) => m.RegistroModule),
   },
   {
     path: 'usuario',
     canActivate: [ AuthGuard, EmailGuard, ActivoGuard ],
+    data: { authGuardPipe: redirectUnauthorizedToLogin },
     loadChildren: () =>
       import('./modules/usuario/usuario.module').then((m) => m.UsuarioModule),
   },
   { 
     path: 'verificar-email',
-    canActivate: [ AuthGuard ],
+    //canActivate: [ ],
     component: VerificarEmailComponent
   },
   { 
     path: 'usuario-inactivo',
-    canActivate: [ AuthGuard ],
+    //canActivate: [ ],
     component: UsuarioInactivoComponent
   },
   { 
     path: 'sin-roles',
-    canActivate: [ AuthGuard ],
+    //canActivate: [ ],
     component: SinRolesComponent
   },
   { 

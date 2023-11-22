@@ -45,30 +45,34 @@ export class RegistroComponent {
     })
   }
 
-  registrar() {
+  async registrar() {
 
-    const { nombre, apellido, dni, edad, obraSocial, email, password, repeatPassword } = this.form.getRawValue();
+    try {
+      const { nombre, apellido, dni, edad, obraSocial, email, password, repeatPassword } = this.form.getRawValue();
 
-    if(password !== repeatPassword) {
-      this.invalidRepeatPass = true;
-      return;
-    }
+      if(password !== repeatPassword) {
+        this.invalidRepeatPass = true;
+        return;
+      }
 
-    this.invalidRepeatPass = false;
-    this.loading = true;
+      this.invalidRepeatPass = false;
+      this.loading = true;
 
-    this.auth.register(email, password)
-    .then(async res => {
-      const imgPerfil = await this.uploadImage(res.user.uid);
+      const userCred = await this.auth.register(email, password);
+      const user = userCred.user;
+
+      this.auth.logout();
+
+      const imgPerfil = await this.uploadImage(user.uid);
 
       let usuario: Usuario = {
-        id: res.user.uid,
+        id: user.uid,
         nombre: nombre,
         apellido: apellido,
         dni: dni,
         edad: edad,
         obraSocial: obraSocial,
-        email: res.user.email,
+        email: user.email,
         imagenes: imgPerfil,
         rol: 'paciente',
         activo: true
@@ -76,14 +80,16 @@ export class RegistroComponent {
       
       this.firestore.agregarUsuario(usuario);
       this.loading = false;
-      this.auth.sendEmailVerification(res);
-      this.router.navigate(['home']);
-    })
-    .catch(error => {
+      this.auth.sendEmailVerification(userCred);
+      alert('usuario creado con exito');
+      this.router.navigate(['/login'])
+    } 
+    catch (error) {
       this.loading = false;
       this.firebaseErrorText = this.error.firebaseError(error.code);
       this.firebaseError = true;
-    });
+    }
+
   }
 
 

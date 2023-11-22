@@ -39,7 +39,9 @@ export class AppComponent implements OnInit {
         case event instanceof NavigationEnd:
         case event instanceof NavigationCancel:
         case event instanceof NavigationError: {
-          this.loading = false;
+          setTimeout(() => {
+            this.loading = false;
+          }, 1000);
           break;
         }
         default: {
@@ -52,7 +54,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.auth.authState$.subscribe(res => {
       if(res != null ) {
-        this.firestore.obtenerUsuario(res.email).subscribe(res => {
+        /*this.firestore.obtenerUsuario(res.email).subscribe(res => {
           this.user = res[0];
           if(this.user.rol === 'admin') {
             this.esAdmin = true;
@@ -63,7 +65,7 @@ export class AppComponent implements OnInit {
           else if(this.user.rol === 'especialista') {
             this.esEspecialista = true;
           }
-        });
+        });*/
       }
       this.loading = false
     });
@@ -74,7 +76,12 @@ export class AppComponent implements OnInit {
     this.esEspecialista = false;
     this.esPaciente = false;
     await this.auth.logout();
-    window.location.reload();
-    //this.router.navigate(['/login']);
+
+    this.user$ = this.auth.authState$.pipe(
+      filter(state => state ? true : false)
+    );
+
+    //window.location.reload();
+    this.router.navigate(['/login']);
   }
 }

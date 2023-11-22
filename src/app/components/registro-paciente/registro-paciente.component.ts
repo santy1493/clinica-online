@@ -44,7 +44,55 @@ export class RegistroPacienteComponent {
     })
   }
 
-  registrar() {
+  async registrar() {
+
+    try {
+      const { nombre, apellido, dni, edad, obraSocial, email, password, repeatPassword } = this.form.getRawValue();
+
+      if(password !== repeatPassword) {
+        this.invalidRepeatPass = true;
+        return;
+      }
+
+      this.invalidRepeatPass = false;
+      this.loading = true;
+
+      const userCred = await this.auth.register(email, password);
+      const user = userCred.user;
+
+      this.auth.logout();
+
+      const imgPerfil = await this.uploadImage(user.uid);
+
+      let usuario: Usuario = {
+        id: user.uid,
+        nombre: nombre,
+        apellido: apellido,
+        dni: dni,
+        edad: edad,
+        obraSocial: obraSocial,
+        email: user.email,
+        imagenes: imgPerfil,
+        rol: 'paciente',
+        activo: true
+      }
+      
+      this.firestore.agregarUsuario(usuario);
+      this.loading = false;
+      this.auth.sendEmailVerification(userCred);
+      alert('usuario creado con exito');
+      this.router.navigate(['/login'])
+    } 
+    catch (error) {
+      this.loading = false;
+      this.firebaseErrorText = this.error.firebaseError(error.code);
+      this.firebaseError = true;
+    }
+
+  }
+
+
+  registrar2() {
 
     const { nombre, apellido, dni, edad, obraSocial, email, password, repeatPassword } = this.form.getRawValue();
 

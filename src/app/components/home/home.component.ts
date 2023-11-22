@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
   );
   
   ngOnInit(): void {
-    this.loading = true;
+    /*this.loading = true;
 
     this.auth.authState$.subscribe(res => {
       if(res != null ) {
@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit {
       else {
         this.loading = false;
       }
-    });
+    });*/
 
   }
 

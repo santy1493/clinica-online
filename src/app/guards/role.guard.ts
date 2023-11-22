@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { take, map } from 'rxjs/operators';
 import { FirestoreService } from '../services/firestore.service';
+import { LocalService } from '../services/local.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,8 @@ export class RoleGuard implements CanActivate {
   constructor(
     public auth: AuthService,
     public router: Router,
-    public firestore: FirestoreService
+    public firestore: FirestoreService,
+    public local: LocalService
   ) { }
 
   canActivate(
@@ -23,7 +25,17 @@ export class RoleGuard implements CanActivate {
 
     const roles: any[] = next.data?.['roles'];
 
-    return this.auth.authState$?.pipe(
+    const usuario = this.local.obtenerUsuario();
+
+    if(usuario && roles.includes(usuario.rol)) {
+      return true;
+    }
+    
+    console.log('sin roles');
+    this.router.navigate(['/usuario/' + usuario.rol]);
+    return false;
+
+    /*return this.auth.authState$?.pipe(
       map((user) => {
         this.firestore.obtenerUsuario(user.email).subscribe(res => {
           if(res && roles.includes(res[0].rol)) {
@@ -33,6 +45,6 @@ export class RoleGuard implements CanActivate {
           return false;
         });
       })
-    );
+    );*/
   }
 }

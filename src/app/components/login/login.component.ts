@@ -5,6 +5,8 @@ import { Usuario } from 'src/app/models/usuario';
 import { AuthService } from 'src/app/services/auth.service';
 import { FirebaseErrorService } from 'src/app/services/firebase-error.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
+import { LocalService } from 'src/app/services/local.service';
+import { SwalService } from 'src/app/services/swal.service';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +24,9 @@ export class LoginComponent {
     private auth: AuthService,
     private router: Router,
     private error: FirebaseErrorService,
-    private firestore: FirestoreService
+    private firestore: FirestoreService,
+    private local: LocalService,
+    private swal: SwalService,
   ) { 
     this.form = this.formBuilder.group({
       email: ['', [Validators.email, Validators.required]],
@@ -34,26 +38,61 @@ export class LoginComponent {
     
   }
 
-  login() {
+  async login() {
     this.firebaseError = false;
     this.loading = true;
 
-    if(this.form.valid) {
-      const { email, password } = this.form.getRawValue();
-      this.auth.login(email, password)
-      .then(() => {
-        this.form.reset();
-        this.router.navigate(['/home']);
-      })
-      .catch(error => {
-        this.loading = false;
-        this.firebaseErrorText = this.error.firebaseError(error.code);
-        this.firebaseError = true;
-      });
-    } else {
+    try {
 
+      if(this.form.valid) {
+
+        const { email, password } = this.form.getRawValue();
+        
+        const userCred = await this.auth.login(email, password);
+        this.local.borrarUsuario();
+
+        if(userCred) {
+          const user = userCred.user;
+  
+          if(user.emailVerified) {
+            const usuario = await this.firestore.obtenerUsuario(user.email);
+  
+            if(usuario.activo) {
+              this.local.guardarUsuario(usuario);
+
+              if(usuario.rol === 'admin') {
+                this.router.navigate(['/usuario/admin']);
+              }
+              else if(usuario.rol === 'paciente') {
+                this.router.navigate(['/usuario/paciente']);
+              }
+              else if(usuario.rol === 'especialista') {
+                this.router.navigate(['/usuario/paciente']);
+              }
+            }
+            else {
+              await this.auth.logout();
+              this.swal.showCuentaInactiva();
+            }
+          }
+          else {
+            await this.auth.logout();
+            this.swal.showVerificarEmail();
+          }
+        }
+      }
+    } 
+    catch (error) {
+      this.firebaseErrorText = this.error.firebaseError(error.code);
+      this.firebaseError = true;
     }
+    finally {
+      this.form.reset();
+      this.loading = false;
+    }
+
   }
+  
   
   
   completarLogin(nombre: string) {

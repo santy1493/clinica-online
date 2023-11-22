@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import 'firebase/firestore';
-import { Firestore, collection, addDoc, collectionData, doc, deleteDoc, query, where } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, collectionData, doc, deleteDoc, query, where, getDoc, getDocs } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Usuario } from '../models/usuario';
+import { Horario } from '../models/horario';
+import { Turno } from '../models/turno';
 
 
 @Injectable({
@@ -19,11 +21,68 @@ export class FirestoreService {
     });
   }
 
-  obtenerUsuario(email: string): Observable<Usuario[]> {
+  obtenerUsuarios(email: string): Observable<Usuario[]> {
     const usuarioRef = collection(this.firestore, 'usuarios');
     const q = query(usuarioRef, where('email', '==', email));
     return collectionData(q, { idField: 'id'}) as Observable<Usuario[]>;
   }
+
+  obtenerTodosUsuarios(): Observable<Usuario[]> {
+    const usuarioRef = collection(this.firestore, 'usuarios');
+    return collectionData(usuarioRef, { idField: 'id'}) as Observable<Usuario[]>;
+  }
+
+  async obtenerUsuario(email: string): Promise<Usuario> {
+    const q = query(collection(this.firestore, 'usuarios'), where('email', '==', email));
+    const querySnapshot = await getDocs(q);
+    if(querySnapshot) {
+      return querySnapshot.docs[0].data() as Usuario
+    }
+    return null;
+  }
+
+
+  /***************************** HORARIOS *****************************/
+
+
+  agregarHorario(horario: Horario) {
+    const horarioRef = collection(this.firestore, 'horarios');
+    return addDoc(horarioRef, horario).catch(err => {
+      console.log(err);
+    });
+  }
+
+  obtenerHorariosPorEspecialista(especialista: string): Observable<Horario[]> {
+    const horarioRef = collection(this.firestore, 'horarios');
+    const q = query(horarioRef, where('especialista', '==', especialista));
+    return collectionData(q, { idField: 'id'}) as Observable<Horario[]>;
+  }
+
+
+
+  /***************************** TURNOS *****************************/
+
+
+  agregarTurno(turno: Turno) {
+    const turnoRef = collection(this.firestore, 'turnos');
+    return addDoc(turnoRef, turno).catch(err => {
+      console.log(err);
+    });
+  }
+
+  obtenerTurnosPorEspecialista(especialista: string): Observable<Turno[]> {
+    const turnoRef = collection(this.firestore, 'turnos');
+    const q = query(turnoRef, where('especialista', '==', especialista));
+    return collectionData(q, { idField: 'id'}) as Observable<Turno[]>;
+  }
+
+  obtenerTurnosPorPaciente(paciente: string): Observable<Turno[]> {
+    const turnoRef = collection(this.firestore, 'turnos');
+    const q = query(turnoRef, where('paciente', '==', paciente));
+    return collectionData(q, { idField: 'id'}) as Observable<Turno[]>;
+  }
+
+
 
   /*agregarLog(log: Log) {
     const logRef = collection(this.firestore, 'logs');

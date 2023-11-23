@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import 'firebase/firestore';
-import { Firestore, collection, addDoc, collectionData, doc, deleteDoc, query, where, getDoc, getDocs } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, collectionData, doc, deleteDoc, query, where, getDoc, getDocs, updateDoc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Usuario } from '../models/usuario';
 import { Horario } from '../models/horario';
 import { Turno } from '../models/turno';
+import { Especialidad } from '../models/especialidad';
 
 
 @Injectable({
@@ -41,6 +42,30 @@ export class FirestoreService {
     return null;
   }
 
+  activarUsuario(usuario: Usuario) {
+    const usuarioRef = collection(this.firestore, 'usuarios');
+    const documento = doc(usuarioRef, usuario.id);
+    return updateDoc(documento, {
+      activo: true
+    });
+  }
+
+  desactivarUsuario(usuario: Usuario) {
+    const usuarioRef = collection(this.firestore, 'usuarios');
+    const documento = doc(usuarioRef, usuario.id);
+    return updateDoc(documento, {
+      activo: false
+    });
+  }
+
+
+  obtenerEspecialistas(): Observable<Usuario[]> {
+    const usuarioRef = collection(this.firestore, 'usuarios');
+    const q = query(usuarioRef, where('rol', '==', 'especialista'));
+    return collectionData(q, { idField: 'id'}) as Observable<Usuario[]>;
+  }
+
+
 
   /***************************** HORARIOS *****************************/
 
@@ -50,6 +75,11 @@ export class FirestoreService {
     return addDoc(horarioRef, horario).catch(err => {
       console.log(err);
     });
+  }
+
+  obtenerHorarios(): Observable<Horario[]> {
+    const horarioRef = collection(this.firestore, 'horarios');
+    return collectionData(horarioRef, { idField: 'id'}) as Observable<Horario[]>;
   }
 
   obtenerHorariosPorEspecialista(especialista: string): Observable<Horario[]> {
@@ -82,6 +112,22 @@ export class FirestoreService {
     return collectionData(q, { idField: 'id'}) as Observable<Turno[]>;
   }
 
+
+
+  /***************************** ESPECIALIDADES *****************************/
+
+
+  agregarEspecialidad(especialidad: Especialidad) {
+    const especialidadRef = collection(this.firestore, 'especialidades');
+    return addDoc(especialidadRef, especialidad).catch(err => {
+      console.log(err);
+    });
+  }
+
+  obtenerEspecialidades(): Observable<Especialidad[]> {
+    const especialidadRef = collection(this.firestore, 'especialidades');
+    return collectionData(especialidadRef, { idField: 'id'}) as Observable<Especialidad[]>;
+  }
 
 
   /*agregarLog(log: Log) {

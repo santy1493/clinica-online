@@ -1,56 +1,52 @@
 <p *ngFor="let item of horariosEspecialista">{{ item.especialidad }}</p>
 
+<div class="card">
+    <form [formGroup]="formHorario" (ngSubmit)="agregarHorario()">
+    
+        especialidad
+        <input type="text" name="" id="" formControlName="especialidad">
+        <br>
+        <input type="number" name="" id="" formControlName="duracionTurno">
+        <br>
+        Lunes 
+        <br>
+        inicio: <input type="number" name="" id="" formControlName="inicioLunes">
+        <br>
+        fin: <input type="number" name="" id="" formControlName="finLunes">
+        <br>
+        Martes 
+        <br>
+        inicio: <input type="number" name="" id="" formControlName="inicioMartes">
+        <br>
+        fin: <input type="number" name="" id="" formControlName="finMartes">
+        <br>
+        Miercoles 
+        <br>
+        inicio: <input type="number" name="" id="" formControlName="inicioMiercoles">
+        <br>
+        fin: <input type="number" name="" id="" formControlName="finMiercoles">
+        <br>
+        Jueves 
+        <br>
+        inicio: <input type="number" name="" id="" formControlName="inicioJueves">
+        <br>
+        fin: <input type="number" name="" id="" formControlName="finJueves">
+        <br>
+        Viernes 
+        <br>
+        inicio: <input type="number" name="" id="" formControlName="inicioViernes">
+        <br>
+        fin: <input type="number" name="" id="" formControlName="finViernes">
+        <br>
+        Sabado 
+        <br>
+        inicio: <input type="number" name="" id="" formControlName="inicioSabado">
+        <br>
+        fin: <input type="number" name="" id="" formControlName="finSabado">
+        <button type="submit" class="btn btn-primary">Agregar</button>
+    </form>
+</div>
 
-<form [formGroup]="formHorario" (ngSubmit)="agregarHorario()">
-    especialidad <input type="text" name="" id="" formControlName="especialidad">
-    <br>
-    <input type="number" name="" id="" formControlName="duracionTurno">
-    <br>
-    <br>
-    Lunes 
-    <br>
-    inicio: <input type="number" name="" id="" formControlName="inicioLunes">
-    <br>
-    fin: <input type="number" name="" id="" formControlName="finLunes">
-    <br>
-    <br>
-    Martes 
-    <br>
-    inicio: <input type="number" name="" id="" formControlName="inicioMartes">
-    <br>
-    fin: <input type="number" name="" id="" formControlName="finMartes">
-    <br>
-    <br>
-    Miercoles 
-    <br>
-    inicio: <input type="number" name="" id="" formControlName="inicioMiercoles">
-    <br>
-    fin: <input type="number" name="" id="" formControlName="finMiercoles">
-    <br>
-    <br>
-    Jueves 
-    <br>
-    inicio: <input type="number" name="" id="" formControlName="inicioJueves">
-    <br>
-    fin: <input type="number" name="" id="" formControlName="finJueves">
-    <br>
-    <br>
-    Viernes 
-    <br>
-    inicio: <input type="number" name="" id="" formControlName="inicioViernes">
-    <br>
-    fin: <input type="number" name="" id="" formControlName="finViernes">
-    <br>
-    <br>
-    Sabado 
-    <br>
-    inicio: <input type="number" name="" id="" formControlName="inicioSabado">
-    <br>
-    fin: <input type="number" name="" id="" formControlName="finSabado">
-    <br>
-    <br>
-    <button type="submit">Agregar</button>
-</form>
 
 
 <button class="btn btn-primary" *ngFor="let turno of turnosDisponibles" (click)="asignarTurno(turno)">{{ formatDateTime1(turno.fecha) + ' ' + turno.paciente }}</button>

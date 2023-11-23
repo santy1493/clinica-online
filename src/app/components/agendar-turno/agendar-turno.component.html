@@ -1,0 +1,17 @@
+<h1>especialidad: {{ especialidadElegida }} -- especialista: {{ especialistaElegido }}</h1>
+
+<ng-container *ngIf="especialidadElegida == ''">
+    <button *ngFor="let especialidad of especialidades" (click)="elegirEspecialidad(especialidad)">{{ especialidad.nombre }}</button>
+</ng-container>
+
+<ng-container *ngIf="especialidadElegida != '' && especialistaElegido == ''">
+    <button (click)="volverEspecialidad()">volver a especialidad</button>
+    <br>
+    <button *ngFor="let especialista of filtroEspecialistas" (click)="elegirEspecialista(especialista)">{{ especialista.nombre }}</button>
+</ng-container>
+
+<ng-container *ngIf="especialistaElegido != ''">
+    <button (click)="volverEspecialista()">volver a especialista</button>
+    <br>
+    <button class="btn btn-primary" *ngFor="let turno of turnosDisponibles" (click)="asignarTurno(turno)">{{ formatDateTime1(turno.fecha) + ' ' + turno.paciente }}</button>
+</ng-container>

@@ -1,0 +1,10 @@
+.botonRegistro {
+    background-color: rgb(74, 142, 210);
+    height: 220px;
+    border: 3px solid white;
+    border-radius: 20px;
+}
+
+.botonRegistro:hover {
+    scale: 0.95;
+}

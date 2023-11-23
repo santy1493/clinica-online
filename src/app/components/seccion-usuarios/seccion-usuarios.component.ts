@@ -23,4 +23,12 @@ export class SeccionUsuariosComponent implements OnInit{
     })
   }
 
+  activarUsuario(usuario: Usuario) {
+    this.firestore.activarUsuario(usuario);
+  }
+
+  desactivarUsuario(usuario: Usuario) {
+    this.firestore.desactivarUsuario(usuario);
+  }
+
 }

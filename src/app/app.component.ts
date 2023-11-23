@@ -52,7 +52,30 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.auth.authState$.subscribe(res => {
+      if(res != null ) {
+        this.firestore.obtenerUsuarios(res.email).subscribe(res => {
+
+          this.esAdmin = false;
+          this.esPaciente = false;
+          this.esEspecialista = false;
+
+          if(res[0].rol == 'admin') {
+            this.esAdmin = true;
+          }
+          else if(res[0].rol === 'paciente') {
+            this.esPaciente = true;
+          }
+          else if(res[0].rol === 'especialista') {
+            this.esEspecialista = true;
+          }
+          this.loading = false
+        });
+      }
+    });
+
+    /*this.auth.authState$.subscribe(res => {
       if(res != null ) {
         /*this.firestore.obtenerUsuario(res.email).subscribe(res => {
           this.user = res[0];
@@ -65,10 +88,10 @@ export class AppComponent implements OnInit {
           else if(this.user.rol === 'especialista') {
             this.esEspecialista = true;
           }
-        });*/
+        });
       }
       this.loading = false
-    });
+    });*/
   }
 
   async logout() {

@@ -83,6 +83,7 @@ export class LoginComponent {
       }
     } 
     catch (error) {
+      console.log(error.code);
       this.firebaseErrorText = this.error.firebaseError(error.code);
       this.firebaseError = true;
     }

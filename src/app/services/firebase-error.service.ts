@@ -8,6 +8,10 @@ export class FirebaseErrorService {
   firebaseError(code: string) {
 
     switch(code) {
+      
+      case 'auth/invalid-login-credentials':
+        return 'Usuario o contraseña incorrectos.'
+
       case 'auth/email-already-in-use':
         return 'El usuario ya existe.'
 

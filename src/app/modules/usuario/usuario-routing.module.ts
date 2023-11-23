@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SeccionPacienteComponent } from 'src/app/components/seccion-paciente/seccion-paciente.component';
 import { SeccionUsuariosComponent } from 'src/app/components/seccion-usuarios/seccion-usuarios.component';
 import { RoleGuard } from 'src/app/guards/role.guard';
 
@@ -19,7 +18,8 @@ const routes: Routes = [
     data: {
       roles: ['paciente']
     },
-    component: SeccionPacienteComponent
+    loadChildren: () =>
+      import('../paciente/paciente.module').then((m) => m.PacienteModule),
   },
   { 
     path: 'especialista',

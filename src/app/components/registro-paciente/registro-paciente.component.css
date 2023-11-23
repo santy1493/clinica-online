@@ -1,0 +1,11 @@
+.error_message{
+    padding-top: 2px;
+    font-size: 12px;
+    color: red;
+}
+  
+.error_message_userpass{
+    padding-top: 4px;
+    font-size: 15px;
+    color: red;
+}

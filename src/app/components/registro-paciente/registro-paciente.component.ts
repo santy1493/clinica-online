@@ -6,12 +6,33 @@ import { AuthService } from 'src/app/services/auth.service';
 import { FirebaseErrorService } from 'src/app/services/firebase-error.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { Storage, getDownloadURL, ref, uploadBytes } from '@angular/fire/storage';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 @Component({
   selector: 'app-registro-paciente',
   templateUrl: './registro-paciente.component.html',
-  styleUrls: ['./registro-paciente.component.css']
+  styleUrls: ['./registro-paciente.component.css'],
+  animations: [ trigger('openClose', [
+    // ...
+    state('open', style({
+      height: '200px',
+      opacity: 1,
+      backgroundColor: 'yellow'
+    })),
+    state('closed', style({
+      height: '100px',
+      opacity: 0.8,
+      backgroundColor: 'blue'
+    })),
+    transition('open => closed', [
+      animate('1s')
+    ]),
+    transition('closed => open', [
+      animate('0.5s')
+    ]),
+  ]),
+]
 })
-export class RegistroPacienteComponent {
+export class RegistroPacienteComponent implements OnInit {
   form: FormGroup;
   loading: boolean = false;
   invalidRepeatPass: boolean = false;
@@ -20,6 +41,8 @@ export class RegistroPacienteComponent {
 
   files: Blob[];
   fileUrl: string[];
+
+  isOpen = true;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -36,7 +59,7 @@ export class RegistroPacienteComponent {
       nombre: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
       apellido: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
       dni: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(7), Validators.maxLength(8)]],
-      edad: ['', [Validators.required, Validators.min(18), Validators.max(80)]],
+      edad: ['', [Validators.required, Validators.min(18), Validators.max(99)]],
       obraSocial: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],

@@ -1,0 +1,179 @@
+.center {
+    margin: auto;
+    width: 40%;
+}
+.fab-container {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.fab-container > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5px;
+}
+.fab-container > div button {
+    margin-top: 17px;
+}
+.fab-container2 {
+    position: fixed;
+    bottom: 15px;
+    left: 15px;
+    z-index: 100;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    width: 120px;
+}
+.fab-container2 > div {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: right;
+    margin-bottom: 5px;
+}
+.fab-container2 > div button {
+    margin-bottom: 5px;
+}
+.fab-container3 {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 120px;
+}
+.fab-container3 > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5px;
+}
+.fab-container3 > div button {
+    margin-top: 17px;
+}
+.fab-container4 {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    z-index: 100;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+}
+.fab-container4 > div {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    margin-bottom: 5px;
+}
+.fab-container4 > div button {
+    margin-bottom: 17px;
+}
+.fab-container5 {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    z-index: 100;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+}
+.fab-container5 > div {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    margin-bottom: 5px;
+}
+.fab-container5 > div button {
+    margin-bottom: 17px;
+}
+.fab-toggler {
+    float: right;
+    z-index: 100;
+}
+#fab-dismiss {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 99;
+}
+.speed-dial-hover {
+    transition: transform 0.2s;
+}
+.speed-dial-hover:hover {
+    background-color: #e1e1e1;
+    transform: scale(1.05);
+}
+.speed-dial-icon-text {
+    background: transparent;
+    border: none;
+    margin-top: 5px;
+}
+.boven {
+    flex-direction: column-reverse;
+    bottom: 15px;
+    right: 15px;
+}
+.boven > div {
+    flex-direction: column-reverse;
+}
+.boven > div button {
+    margin-top: 17px;
+}
+.onder {
+    flex-direction: column;
+}
+.onder > div {
+    flex-direction: column;
+}
+.onder > div button {
+    margin-top: 17px;
+}
+.links {
+    flex-direction: row-reverse;
+}
+.links > div {
+    flex-direction: row-reverse;
+    margin-top: 0px;
+    margin-left: 5px;
+}
+.links > div button {
+    margin-top: 0px;
+    margin-left: 17px;
+}
+.rechts {
+    flex-direction: row;
+    left: 15px;
+}
+.rechts > div {
+    flex-direction: row;
+    margin-top: 0px;
+    margin-right: 5px;
+}
+.rechts > div button {
+    margin-top: 0px;
+    margin-right: 17px;
+}
+
+
+.fabBtnMain {
+    background-color: rgb(173, 102, 232);
+    width: 80px;
+    height: 80px;
+}
+
+.fabImg {
+    width: 85px;
+    border-radius: 50%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}

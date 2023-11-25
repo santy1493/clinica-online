@@ -6,18 +6,21 @@ import { AuthService } from 'src/app/services/auth.service';
 import { FirebaseErrorService } from 'src/app/services/firebase-error.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { Storage, getDownloadURL, ref, uploadBytes } from '@angular/fire/storage';
+import { Especialidad } from 'src/app/models/especialidad';
 
 @Component({
   selector: 'app-registro-especialista',
   templateUrl: './registro-especialista.component.html',
   styleUrls: ['./registro-especialista.component.css']
 })
-export class RegistroEspecialistaComponent {
+export class RegistroEspecialistaComponent implements OnInit {
   form: FormGroup;
   loading: boolean = false;
   invalidRepeatPass: boolean = false;
   firebaseError: boolean = false;
   firebaseErrorText: string;
+
+  especialidades: Especialidad[];
 
   files: Blob[];
   fileUrl: string[];
@@ -33,15 +36,21 @@ export class RegistroEspecialistaComponent {
 
 
   ngOnInit(): void {
+
+    this.firestore.obtenerEspecialidades().subscribe(res => {
+      this.especialidades = res;
+    });
+
     this.form = this.formBuilder.group({
       nombre: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
       apellido: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
       dni: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(7), Validators.maxLength(8)]],
       edad: ['', [Validators.required, Validators.min(18), Validators.max(80)]],
-      especialidad: ['', [Validators.required]],
+      especialidad: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      repeatPassword: ['', Validators.required]
+      repeatPassword: ['', Validators.required],
+      imagen: [null, Validators.required]
     })
   }
 
@@ -147,13 +156,15 @@ export class RegistroEspecialistaComponent {
         url.push(urlAux);
       }
 
-      let obrasociales = ['OSECAC', 'OSPACA', 'OSDE', 'OSCTCP', 'OSCHOCA']
-
       console.log(url);
       return url;
     }
     
     return null;
+  }
+
+  setearEspecialidadNueva(e: any) {
+    console.log(e);
   }
 
 

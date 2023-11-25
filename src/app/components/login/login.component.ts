@@ -114,4 +114,13 @@ export class LoginComponent {
       this.form.controls['password'].setValue('123456');
     }
   }
+
+  completarLogin3(usr: Usuario) {
+    if(this.form.controls['email']) {
+      this.form.controls['email'].setValue(usr.email);
+    }
+    if(this.form.controls['password']) {
+      this.form.controls['password'].setValue('123456');
+    }
+  }
 }

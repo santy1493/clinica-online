@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -17,6 +17,9 @@ import { UsuarioInactivoComponent } from './components/usuario-inactivo/usuario-
 import { SinRolesComponent } from './components/sin-roles/sin-roles.component';
 import { UsuarioModule } from './modules/usuario/usuario.module';
 import { RegistroModule } from './modules/registro/registro.module';
+import { NoopAnimationsModule, BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AngularMaterialModule } from './modules/angular-material/angular-material.module';
+import { SpeedDialFabComponent } from './components/speed-dial-fab/speed-dial-fab.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +30,7 @@ import { RegistroModule } from './modules/registro/registro.module';
     VerificarEmailComponent,
     UsuarioInactivoComponent,
     SinRolesComponent,
+    SpeedDialFabComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,9 +42,12 @@ import { RegistroModule } from './modules/registro/registro.module';
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
-    provideStorage(() => getStorage())
+    provideStorage(() => getStorage()),
+    BrowserAnimationsModule,
+    AngularMaterialModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

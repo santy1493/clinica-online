@@ -100,11 +100,11 @@ export class AppComponent implements OnInit {
     this.esPaciente = false;
     await this.auth.logout();
 
-    this.user$ = this.auth.authState$.pipe(
+    /*this.user$ = this.auth.authState$.pipe(
       filter(state => state ? true : false)
-    );
+    );*/
 
-    //window.location.reload();
-    this.router.navigate(['/login']);
+    window.location.reload();
+    //this.router.navigate(['/login']);
   }
 }

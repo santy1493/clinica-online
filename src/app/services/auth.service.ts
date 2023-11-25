@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, authState, User, NextOrObserver, sendEmailVerification, UserCredential } from '@angular/fire/auth';
+import { LocalService } from './local.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class AuthService {
 
   constructor(
     private afAuth: Auth,
+    private local: LocalService
   ) { 
     this.currentUser = afAuth.currentUser;
   }
@@ -25,6 +27,7 @@ export class AuthService {
   }
 
   logout() {
+    this.local.borrarUsuario();
     return signOut(this.afAuth);
   }
 

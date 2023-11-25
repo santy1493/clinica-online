@@ -130,6 +130,21 @@ export class FirestoreService {
   }
 
 
+  /***************************** OBRAS SOCIALES *****************************/
+
+  agregarObraSocial(obraSocial: any) {
+    const obraSocialRef = collection(this.firestore, 'obras-sociales');
+    return addDoc(obraSocialRef, obraSocial).catch(err => {
+      console.log(err);
+    });
+  }
+
+  obtenerObrasSociales(): Observable<any[]> {
+    const obraSocialRef = collection(this.firestore, 'obras-sociales');
+    return collectionData(obraSocialRef, { idField: 'id'}) as Observable<any[]>;
+  }
+
+
   /*agregarLog(log: Log) {
     const logRef = collection(this.firestore, 'logs');
     return addDoc(logRef, log).catch(err => {

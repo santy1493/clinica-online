@@ -11,14 +11,15 @@
     <i class="material-icons" [@fabToggler]="{value: fabTogglerState}" style="font-size: 50px;">add</i>
   </button>
   <div [@speedDialStagger]="buttons.length">
-    <button *ngFor="let btn of buttons"
+    <button *ngFor="let btn of buttons" style="text-align: center;"
             
             class="speed-dial-icon-text"
             (click)="onClick(btn)">
             
                 <img [src]=" btn.imagenes ? btn.imagenes[0] :'https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Kittyplya03042006.JPG/800px-Kittyplya03042006.JPG'"
                 alt="" class="fabImg" (click)="seleccionarUsuario(btn)">
-     
+
+                <span class="tipoUsuarioCard">{{ btn.rol }}</span>
      <!-- <i class="material-icons">{{btn.icon}}</i>
       {{btn.description}} mat-raised-button
     

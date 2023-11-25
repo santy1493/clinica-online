@@ -1,52 +1,87 @@
-<p *ngFor="let item of horariosEspecialista">{{ item.especialidad }}</p>
 
-<div class="card">
-    <form [formGroup]="formHorario" (ngSubmit)="agregarHorario()">
-    
-        especialidad
-        <input type="text" name="" id="" formControlName="especialidad">
-        <br>
-        <input type="number" name="" id="" formControlName="duracionTurno">
-        <br>
-        Lunes 
-        <br>
-        inicio: <input type="number" name="" id="" formControlName="inicioLunes">
-        <br>
-        fin: <input type="number" name="" id="" formControlName="finLunes">
-        <br>
-        Martes 
-        <br>
-        inicio: <input type="number" name="" id="" formControlName="inicioMartes">
-        <br>
-        fin: <input type="number" name="" id="" formControlName="finMartes">
-        <br>
-        Miercoles 
-        <br>
-        inicio: <input type="number" name="" id="" formControlName="inicioMiercoles">
-        <br>
-        fin: <input type="number" name="" id="" formControlName="finMiercoles">
-        <br>
-        Jueves 
-        <br>
-        inicio: <input type="number" name="" id="" formControlName="inicioJueves">
-        <br>
-        fin: <input type="number" name="" id="" formControlName="finJueves">
-        <br>
-        Viernes 
-        <br>
-        inicio: <input type="number" name="" id="" formControlName="inicioViernes">
-        <br>
-        fin: <input type="number" name="" id="" formControlName="finViernes">
-        <br>
-        Sabado 
-        <br>
-        inicio: <input type="number" name="" id="" formControlName="inicioSabado">
-        <br>
-        fin: <input type="number" name="" id="" formControlName="finSabado">
-        <button type="submit" class="btn btn-primary">Agregar</button>
-    </form>
+
+<div class="container col-lg-8 mt-4">
+    <div class="card">
+        <div class="row justify-content-center text-center mb-5">
+            <h1 class="text-center my-5">Agregar Horario</h1>
+            <form [formGroup]="formHorario" (ngSubmit)="agregarHorario()">
+                <div class="row justify-content-center text-center">
+                    <div class="col-8" *ngIf="!obraSocialCheck.checked">
+                        <label>Especialidad</label>
+                        <select class="form-select" formControlName="especialidad">
+                          <option selected value="" disabled>Seleccione...</option>
+                          <option [value]="e.nombre" *ngFor="let e of especialidades" class="opcionObraSocial">{{ e.nombre }}</option>
+                        </select>
+                        <span *ngIf="formHorario.get('especialidad').hasError('required') && formHorario.get('especialidad').touched" class="text-danger error-labe">* La obra social es requerida</span>
+                      </div>
+                      <div class="col-8" *ngIf="obraSocialCheck.checked">
+                        <label>Especialidad</label>
+                        <input type="text" placeholder="Ingrese su obra social" class="form-control" formControlName="especialidad">
+                        <span *ngIf="formHorario.get('especialidad').hasError('required') && formHorario.get('especialidad').touched" class="text-danger error-labe">* La obra social es requerida</span>
+                        <span *ngIf="formHorario.get('especialidad').hasError('pattern') && formHorario.get('especialidad').touched" class="text-danger error-labe">* La obra social es invalida</span>
+                      </div>
+                      <div class="col-4 col-lg-4 d-flex justify-content-center align-items-center">
+                        <div class="form-check form-switch">
+                          <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" (change)="true" #obraSocialCheck (click)="setearEspecialidadNueva(obraSocialCheck.checked)">
+                          <label class="form-check-label" for="flexSwitchCheckDefault">Ingresar otra especialidad</label>
+                        </div>
+                      </div>
+                </div>
+                <div class="col-12 mb-3">
+                        <label>Lunes</label>
+                        <input type="checkbox" formControlName="trabajaLunes" #trabajaLunesCheck>
+                    <mat-slider  min="8" max="17" step="1" showTickMarks discrete [disabled]="!trabajaLunesCheck.checked">
+                        <input  value="10" matSliderStartThumb formControlName="inicioLunes">
+                        <input  value="13" matSliderEndThumb formControlName="finLunes">
+                    </mat-slider>
+                </div>
+                <div class="col-12 mb-3">
+                    <label>Martes</label>
+                    <input type="checkbox" formControlName="trabajaMartes" #trabajaMartesCheck>
+                    <mat-slider  min="8" max="17" step="1" showTickMarks discrete [disabled]="!trabajaMartesCheck.checked">
+                        <input  value="10" matSliderStartThumb formControlName="inicioMartes">
+                        <input  value="13" matSliderEndThumb formControlName="finMartes">
+                    </mat-slider>
+                </div>
+                <div class="col-12 mb-3">
+                    <label>Miercoles</label>
+                    <input type="checkbox" formControlName="trabajaMiercoles" #trabajaMiercolesCheck>
+                    <mat-slider  min="8" max="17" step="1" showTickMarks discrete [disabled]="!trabajaMiercolesCheck.checked">
+                        <input  value="10" matSliderStartThumb formControlName="inicioMiercoles">
+                        <input  value="13" matSliderEndThumb formControlName="finMiercoles">
+                    </mat-slider>
+                </div>
+                <div class="col-12 mb-3">
+                    <label>Jueves</label>
+                    <input type="checkbox" formControlName="trabajaJueves" #trabajaJuevesCheck>
+                    <mat-slider  min="8" max="17" step="1" showTickMarks discrete [disabled]="!trabajaJuevesCheck.checked">
+                        <input  value="10" matSliderStartThumb formControlName="inicioJueves">
+                        <input  value="13" matSliderEndThumb formControlName="finJueves">
+                    </mat-slider>
+                </div>
+                <div class="col-12 mb-3">
+                    <label>Viernes</label>
+                    <input type="checkbox" formControlName="trabajaViernes" #trabajaViernesCheck>
+                    <mat-slider  min="8" max="17" step="1" showTickMarks discrete [disabled]="!trabajaViernesCheck.checked">
+                        <input  value="10" matSliderStartThumb formControlName="inicioViernes">
+                        <input  value="13" matSliderEndThumb formControlName="finViernes">
+                    </mat-slider>
+                </div>
+                <div class="col-12 mb-3">
+                    <label>Sabado</label>
+                    <input type="checkbox" formControlName="trabajaSabado" #trabajaSabadoCheck>
+                    <mat-slider  min="8" max="17" step="1" showTickMarks discrete [disabled]="!trabajaSabadoCheck.checked">
+                        <input  value="10" matSliderStartThumb formControlName="inicioSabado">
+                        <input  value="13" matSliderEndThumb formControlName="finSabado">
+                    </mat-slider>
+                </div>
+                <button type="submit" class="btn btn-primary" [disabled]="!formHorario.valid">Agregar</button>
+            </form>
+        </div>
+    </div>
 </div>
 
-
-
+<!--
+    <p *ngFor="let item of horariosEspecialista">{{ item.especialidad }}</p>
 <button class="btn btn-primary" *ngFor="let turno of turnosDisponibles" (click)="asignarTurno(turno)">{{ formatDateTime1(turno.fecha) + ' ' + turno.paciente }}</button>
+-->

@@ -24,4 +24,12 @@ export class SwalService {
     });
   }
 
+  showHorarioRepetido() {
+    Swal.fire({
+      icon: "error",
+      title: "Horario Repetido",
+      text: "Ya existe un horario con la misma especialidad. Elimine el existente para crear uno nuevo"
+    });
+  }
+
 }

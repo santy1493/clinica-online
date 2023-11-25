@@ -2,7 +2,7 @@
     <div class="card">
       <form [formGroup]="form" (ngSubmit)="login()">
         <div class="row justify-content-center">
-          <h1 class="text-center mt-3 mb-5">Iniciar Sesion</h1>
+          <h1 class="text-center mt-4 mb-5">Iniciar Sesion</h1>
             <div class="col-10 mb-3">
                 <label>Correo</label>
                 <input type="text" placeholder="Ingrese su correo" class="form-control" formControlName="email">
@@ -25,10 +25,10 @@
             <div class="col-5 mt-3 mb-4  d-flex justify-content-center px-5">
               <button class="btn btn-primary"  type="submit" [disabled]="!form.valid">Ingresar</button>
             </div>
-            <p class="text-center mb-2">¿No tienes cuenta? <a routerLink="/registro">Registrarse</a></p>
-            <button type="button" class="btn btn-outline-danger btn-sm acceso-directo" (click)="completarLogin2('biwafod878@eazenity.com')" style="margin: 20px 5px;">ADMIN</button>
+            <p class="text-center mb-5">¿No tienes cuenta? <a routerLink="/registro">Registrarse</a></p>
+            <!-- <button type="button" class="btn btn-outline-danger btn-sm acceso-directo" (click)="completarLogin2('biwafod878@eazenity.com')" style="margin: 20px 5px;">ADMIN</button>
             <button type="button" class="btn btn-outline-danger btn-sm acceso-directo" (click)="completarLogin2('holoyob204@glalen.com')" style="margin: 20px 5px;">PACIENTE</button>
-            <button type="button" class="btn btn-outline-danger btn-sm acceso-directo" (click)="completarLogin2('fipefev753@glalen.com')" style="margin: 20px 5px;">ESPECIALISTA</button>
+            <button type="button" class="btn btn-outline-danger btn-sm acceso-directo" (click)="completarLogin2('fipefev753@glalen.com')" style="margin: 20px 5px;">ESPECIALISTA</button> -->
         </div>
       </form>
     </div>

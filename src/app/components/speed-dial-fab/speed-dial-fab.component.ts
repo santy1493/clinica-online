@@ -125,6 +125,7 @@ export class SpeedDialFabComponent implements OnInit {
 
   seleccionarUsuario(usr: Usuario) {
     this.newItemEvent.emit(usr);
+    this.hideItems();
   }
 
 }

@@ -167,13 +167,24 @@
 
 .fabBtnMain {
     background-color: rgb(173, 102, 232);
-    width: 80px;
-    height: 80px;
+    width: 75px;
+    height: 75px;
 }
 
 .fabImg {
-    width: 85px;
+    width: 75px;
     border-radius: 50%;
     aspect-ratio: 1 / 1;
     object-fit: cover;
+    margin-bottom: -15px;
+}
+
+.tipoUsuarioCard {
+    bottom: 0;
+    background: white;
+    font-size: 12px;
+    font-weight: 400;
+    border: 1px solid black;
+    border-radius: 3px;
+    text-transform: uppercase;
 }

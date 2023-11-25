@@ -43,6 +43,8 @@ export class RegistroPacienteComponent implements OnInit {
   fileUrl: string[];
 
   isOpen = true;
+  obrasSociales: any[];
+  error2Fotos: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -55,6 +57,11 @@ export class RegistroPacienteComponent implements OnInit {
 
 
   ngOnInit(): void {
+
+    this.firestore.obtenerObrasSociales().subscribe(res => {
+      this.obrasSociales = res;
+    });
+
     this.form = this.formBuilder.group({
       nombre: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
       apellido: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
@@ -63,17 +70,26 @@ export class RegistroPacienteComponent implements OnInit {
       obraSocial: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      repeatPassword: ['', Validators.required]
+      repeatPassword: ['', Validators.required],
+      imagen: [null, Validators.required]
     })
   }
 
   async registrar() {
 
     try {
+
+      this.error2Fotos = false;
+
       const { nombre, apellido, dni, edad, obraSocial, email, password, repeatPassword } = this.form.getRawValue();
 
       if(password !== repeatPassword) {
         this.invalidRepeatPass = true;
+        return;
+      }
+
+      if(this.files.length < 2) {
+        this.error2Fotos = true;
         return;
       }
 

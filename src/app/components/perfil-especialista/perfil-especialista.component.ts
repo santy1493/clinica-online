@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Especialidad } from 'src/app/models/especialidad';
 import { Horario } from 'src/app/models/horario';
 import { Turno } from 'src/app/models/turno';
 import { Usuario } from 'src/app/models/usuario';
 import { UsuarioLocal } from 'src/app/models/usuario-local';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { LocalService } from 'src/app/services/local.service';
+import { SwalService } from 'src/app/services/swal.service';
 
 @Component({
   selector: 'app-perfil-especialista',
@@ -21,35 +23,67 @@ export class PerfilEspecialistaComponent implements OnInit {
   turnosAsignados: Turno[] = [];
   especialidadInput: string;
   formHorario: FormGroup;
+  especialidades: Especialidad[];
+  misHorarios: Horario[];
+
+  inicioLunes: number = null;
+  finLunes: number = null;
+  inicioMartes: number = null;
+  finMartes: number = null;
+  inicioMiercoles: number = null;
+  finMiercoles: number = null;
+  inicioJueves: number = null;
+  finJueves: number = null;
+  inicioViernes: number = null;
+  finViernes: number = null;
+  inicioSabado: number = null;
+  finSabado: number = null;
+
 
   constructor(
     private formBuilder: FormBuilder,
     private firestore: FirestoreService,
-    private local: LocalService
+    private local: LocalService,
+    private swal: SwalService
   ) {}
   
   ngOnInit(): void {
 
     this.formHorario = this.formBuilder.group({
       especialidad: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
-      duracionTurno: [''],
-      inicioLunes: [''],
-      finLunes: [''],
-      inicioMartes: [''],
-      finMartes: [''],
-      inicioMiercoles: [''],
-      finMiercoles: [''],
-      inicioJueves: [''],
-      finJueves: [''],
-      inicioViernes: [''],
-      finViernes: [''],
-      inicioSabado: [''],
-      finSabado: ['']
+      duracionTurno: [],
+      trabajaLunes: [false],
+      trabajaMartes: [false],
+      trabajaMiercoles: [false],
+      trabajaJueves: [false],
+      trabajaViernes: [false],
+      trabajaSabado: [false],
+      inicioLunes: [],
+      finLunes: [],
+      inicioMartes: [],
+      finMartes: [],
+      inicioMiercoles: [],
+      finMiercoles: [],
+      inicioJueves: [],
+      finJueves: [],
+      inicioViernes: [],
+      finViernes: [],
+      inicioSabado: [],
+      finSabado: []
     })
 
     this.usrLocal = this.local.obtenerUsuario();
 
-    this.firestore.obtenerHorariosPorEspecialista(this.usrLocal.email).subscribe(horarios => {
+    this.firestore.obtenerEspecialidades().subscribe(res => {
+      this.especialidades = res;
+    });
+
+    this.firestore.obtenerHorariosPorEspecialista(this.usrLocal.email).subscribe(res => {
+      this.misHorarios = res;
+      console.log(this.misHorarios);
+    })
+
+    /*this.firestore.obtenerHorariosPorEspecialista(this.usrLocal.email).subscribe(horarios => {
 
       this.horariosEspecialista = horarios;
 
@@ -72,21 +106,36 @@ export class PerfilEspecialistaComponent implements OnInit {
 
       })
 
-    });
+    });*/
   }
-
-
-  id?: string;
-    especialista: string;
-    especialidad: string;
-    duracionTurno: number;
-    semana: [];
 
 
   agregarHorario() {
 
-    const { especialidad, duracionTurno, inicioLunes, finLunes, inicioMartes, finMartes,
-      inicioMiercoles, finMiercoles, inicioJueves, finJueves, inicioViernes, finViernes, inicioSabado, finSabado } = this.formHorario.getRawValue();
+    const { especialidad, duracionTurno, trabajaLunes, trabajaMartes, trabajaMiercoles,
+            trabajaJueves, trabajaViernes, trabajaSabado,
+            inicioLunes, finLunes, inicioMartes, finMartes, inicioMiercoles, finMiercoles,
+            inicioJueves, finJueves, inicioViernes, finViernes, inicioSabado, finSabado, } = this.formHorario.getRawValue();
+
+      if(!trabajaLunes && !trabajaMartes && !trabajaMiercoles &&
+        !trabajaJueves &&  !trabajaViernes && !trabajaSabado) {
+          console.log('error');
+          return;
+        } 
+
+      if( (inicioLunes != null && inicioLunes === finLunes) || (inicioMartes != null && inicioMartes === finMartes) ||
+        (inicioMiercoles != null && inicioMiercoles === finMiercoles) || (inicioJueves != null && inicioJueves === finJueves) ||
+        (inicioViernes != null && inicioViernes === finViernes) || (inicioSabado != null && inicioSabado === finSabado)) {
+          console.log('la hora inicio igual a fin');
+          return;
+        }
+
+      let horarioRepetido = this.misHorarios.filter(h => h.especialidad === especialidad);
+
+      if(horarioRepetido.length > 0) {
+        this.swal.showHorarioRepetido();
+        return;
+      }
 
     let lunes: number[];
     let martes: number[];
@@ -95,23 +144,23 @@ export class PerfilEspecialistaComponent implements OnInit {
     let viernes: number[];
     let sabado: number[];
 
-    if(inicioLunes != '') {
-      lunes = [inicioLunes, finLunes];
+    if(trabajaLunes) {
+      lunes = [inicioLunes ? parseInt(inicioLunes) : 10, finLunes ? parseInt(finLunes) : 13];
     }
-    if(inicioMartes != '') {
-      martes = [inicioMartes, finMartes];
+    if(trabajaMartes) {
+      martes = [inicioMartes ? parseInt(inicioMartes) : 10, finMartes ? parseInt(finMartes) : 13];
     }
-    if(inicioMiercoles != '') {
-      miercoles = [inicioMiercoles, finMiercoles];
+    if(trabajaMiercoles) {
+      miercoles = [inicioMiercoles ? parseInt(inicioMiercoles) : 10, finMiercoles ? parseInt(finMiercoles) : 13];
     }
-    if(inicioJueves != '') {
-      jueves = [inicioJueves, finJueves];
+    if(trabajaJueves) {
+      jueves = [inicioJueves ? parseInt(inicioJueves) : 10, finJueves ? parseInt(finJueves) : 13];
     }
-    if(inicioViernes != '') {
-      viernes = [inicioViernes, finViernes];
+    if(trabajaViernes) {
+      viernes = [inicioViernes ? parseInt(inicioViernes) : 10, finViernes ? parseInt(finViernes) : 13];
     }
-    if(inicioSabado != '') {
-      sabado = [inicioSabado, finSabado];
+    if(trabajaSabado) {
+      sabado = [inicioSabado ? parseInt(inicioSabado) : 10, finSabado ? parseInt(finSabado) : 13];
     }
 
     let horario: Horario = {
@@ -126,7 +175,8 @@ export class PerfilEspecialistaComponent implements OnInit {
       sabado: sabado || null
     }
 
-    this.firestore.agregarHorario(horario);
+    console.log(horario);
+    //this.firestore.agregarHorario(horario);
   }
 
 
@@ -250,6 +300,7 @@ export class PerfilEspecialistaComponent implements OnInit {
     }
   }
 
+
   formatearFecha(date: Date) {
     return date.toLocaleString();
   }
@@ -276,6 +327,65 @@ export class PerfilEspecialistaComponent implements OnInit {
   asignarTurno(nuevoTurno: Turno){
     nuevoTurno.paciente = 'pacuente1';
     this.firestore.agregarTurno(nuevoTurno);
+  }
+
+  formatLabel(value: number): string {
+    return `${value}`;
+  }
+
+
+  setearEspecialidadNueva(e: any) {
+    console.log(e);
+  }
+
+
+  setearInicioLunes(e) {
+    this.inicioLunes = e.target.value;
+    console.log(this.inicioLunes);
+  }
+  setearFinLunes(e) {
+    this.finLunes = e.target.value;
+    console.log(this.finLunes);
+  }
+  setearInicioMartes(e) {
+    this.inicioMartes = e.target.value;
+    console.log(this.inicioMartes);
+  }
+  setearFinMartes(e) {
+    this.finMartes = e.target.value;
+    console.log(this.finMartes);
+  }
+  setearInicioMiercoles(e) {
+    this.inicioMiercoles = e.target.value;
+    console.log(this.inicioMiercoles);
+  }
+  setearFinMiercoles(e) {
+    this.finMiercoles = e.target.value;
+    console.log(this.finMiercoles);
+  }
+  setearInicioJueves(e) {
+    this.inicioJueves = e.target.value;
+    console.log(this.inicioJueves);
+  }
+  setearFinJueves(e) {
+    this.finJueves = e.target.value;
+    console.log(this.finJueves);
+  }
+  setearInicioViernes(e) {
+    this.inicioViernes = e.target.value;
+    console.log(this.inicioLunes);
+  }
+  setearFinViernes(e) {
+    this.finViernes = e.target.value;
+    console.log(this.inicioLunes);
+  }
+  setearInicioSabado(e) {
+    this.inicioSabado = e.target.value;
+    console.log(this.inicioLunes);
+  }
+  setearFinSabado(e) {
+    this.finSabado = e.target.value;
+    console.log(this.inicioLunes);
   }
 
 }

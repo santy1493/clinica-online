@@ -6,6 +6,7 @@ import { SeccionEspecialistaComponent } from 'src/app/components/seccion-especia
 import { PerfilEspecialistaComponent } from 'src/app/components/perfil-especialista/perfil-especialista.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import {MatSliderModule} from '@angular/material/slider';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     EspecialistaRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSliderModule
   ]
 })
 export class EspecialistaModule { }

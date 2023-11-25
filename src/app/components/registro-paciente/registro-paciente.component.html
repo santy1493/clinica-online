@@ -2,7 +2,7 @@
     <div class="card">
       <form [formGroup]="form" (ngSubmit)="registrar()">
         <div class="row justify-content-center">
-          <h1 class="text-center my-3">Registro</h1>
+          <h1 class="text-center my-3">Registro de Paciente</h1>
             <div class="col-5 mb-3">
               <label>Nombre</label>
               <input type="text" placeholder="Ingrese su nombre" class="form-control" formControlName="nombre">
@@ -30,9 +30,8 @@
             <div class="col-6 col-lg-7 mb-3" *ngIf="!obraSocialCheck.checked">
               <label>Obra Social</label>
               <select class="form-select" formControlName="obraSocial">
-                <option selected value="">Seleccione...</option>
-                <option [value]="true">Sí</option>
-                <option [value]="false">No</option>
+                <option selected value="" disabled>Seleccione...</option>
+                <option [value]="o.nombre" *ngFor="let o of obrasSociales">{{ o.nombre }}</option>
               </select>
               <span *ngIf="form.get('obraSocial').hasError('required') && form.get('obraSocial').touched" class="text-danger error-labe">* La obra social es requerida</span>
             </div>
@@ -66,7 +65,9 @@
             </div>
             <div class="col-10 mb-3">
               <label>Fotos</label>
-              <input type="file" class="form-control" multiple (change)="onSelectFile($event)">
+              <input type="file" class="form-control" multiple (change)="onSelectFile($event)" formControlName="imagen">
+              <span *ngIf="form.get('imagen').hasError('required') && form.get('imagen').touched" class="text-danger error-labe">* Ingrese dos fotos</span>
+              <span *ngIf="error2Fotos" class="text-danger error-labe">* Debe ingresar dos fotos</span>
             </div>
             <div class="col-3 mb-4  d-flex justify-content-center">
               <button class="btn btn-primary"  type="submit" [disabled]="!form.valid">Registrar</button>

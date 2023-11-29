@@ -7,6 +7,8 @@ import { RegistroComponent } from 'src/app/components/registro/registro.componen
 import { RegistroPacienteComponent } from 'src/app/components/registro-paciente/registro-paciente.component';
 import { RegistroEspecialistaComponent } from 'src/app/components/registro-especialista/registro-especialista.component';
 
+import { RecaptchaModule } from "ng-recaptcha";
+
 
 @NgModule({
   declarations: [
@@ -17,7 +19,8 @@ import { RegistroEspecialistaComponent } from 'src/app/components/registro-espec
   imports: [
     CommonModule,
     RegistroRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RecaptchaModule,
   ]
 })
 export class RegistroModule { }

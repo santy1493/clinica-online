@@ -1,17 +1,53 @@
-<h1>especialidad: {{ especialidadElegida }} -- especialista: {{ especialistaElegido }}</h1>
+<div class="container col-lg-9 mt-4">
 
-<ng-container *ngIf="especialidadElegida == ''">
-    <button *ngFor="let especialidad of especialidades" (click)="elegirEspecialidad(especialidad)">{{ especialidad.nombre }}</button>
-</ng-container>
+    <div class="row justify-content-center mt-3"  *ngIf="especialidadElegida == null">
+        <div class="col-3 mb-4" *ngFor="let especialidad of especialidades"  (click)="elegirEspecialidad(especialidad)">
+            <img [src]="especialidad.imagen" alt="" width="180px" class="especialidadImg">
+        </div>
+    </div>
 
-<ng-container *ngIf="especialidadElegida != '' && especialistaElegido == ''">
-    <button (click)="volverEspecialidad()">volver a especialidad</button>
+    <button (click)="volverEspecialidad()"  *ngIf="especialidadElegida != null && especialistaElegido == null">volver a especialidad</button>
     <br>
-    <button *ngFor="let especialista of filtroEspecialistas" (click)="elegirEspecialista(especialista)">{{ especialista.nombre }}</button>
-</ng-container>
+    <div class="row justify-content-center mt-3"  *ngIf="especialidadElegida != null && especialistaElegido == null">
+        <div class="col-3 mb-4" *ngFor="let especialista of filtroEspecialistas"  (click)="elegirEspecialista(especialista)">
+            <div class="btnEspecialista">
+                <div class="nombreEspecialista">
+                    {{ 'Dr/a ' + especialista.apellido + ', ' + especialista.nombre }}
+                </div>
+                <img [src]="especialista.imagenes[0]" alt="" class="especialistaImg">
+            </div>
+        </div>
+    </div>
 
-<ng-container *ngIf="especialistaElegido != ''">
-    <button (click)="volverEspecialista()">volver a especialista</button>
-    <br>
-    <button class="btn btn-primary" *ngFor="let turno of turnosDisponibles" (click)="asignarTurno(turno)">{{ formatDateTime1(turno.fecha) + ' ' + turno.paciente }}</button>
-</ng-container>
+    <ng-container *ngIf="especialistaElegido != null">
+        <div class="row">
+            <div class="col-4">
+                <div class="row mb-4">
+                    <div class="col-3">
+                        <button class="btn btn-success" (click)="volverEspecialista()">Elegir otro especialista</button>
+                    </div>
+                </div>
+                <div class="col-3 mb-4">
+                    <img [src]="especialidadElegida.imagen" alt="" width="180px" class="especialidadImg">
+                </div>
+                <div class="col-3 mb-4">
+                    <img [src]="especialistaElegido.imagenes[0]" alt="" width="180px" class="especialistaImg">
+                </div>
+            </div>
+            <div class="card col-8 p-4 border-4 border-info">
+                <div class="row text-center mb-3">
+                    <h1>Turnos Disponibles</h1>
+                </div>
+                <div class="row">
+                    <div class="col-3 mb-2"  *ngFor="let turno of turnosDisponibles" >
+                        <button
+                        class="btn btn-primary"
+                        (click)="asignarTurno(turno)"
+                        [disabled]="turno.paciente === 'nodisponible'"
+                        >{{ formatDateTime1(turno.fecha) }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</div>

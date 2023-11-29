@@ -22,8 +22,8 @@ export class AgendarTurnoComponent implements OnInit{
   horarios: Horario[];
   especialistas: Usuario[];
 
-  especialidadElegida: string = '';
-  especialistaElegido: string = '';
+  especialidadElegida: Especialidad = null;
+  especialistaElegido: Usuario = null;
 
   filtroHorarios: Horario[];
   filtroEspecialistas: Usuario[];
@@ -58,11 +58,11 @@ export class AgendarTurnoComponent implements OnInit{
   }
 
   elegirEspecialidad(especialidad: Especialidad) {
-    this.especialidadElegida = especialidad.nombre;
+    this.especialidadElegida = especialidad;
 
     this.filtroHorarios = [];
 
-    this.filtroHorarios = this.horarios.filter(x => x.especialidad === this.especialidadElegida);
+    this.filtroHorarios = this.horarios.filter(x => x.especialidad === this.especialidadElegida.nombre);
 
     this.filtroEspecialistas = [];
 
@@ -85,15 +85,15 @@ export class AgendarTurnoComponent implements OnInit{
   }
 
   volverEspecialidad() {
-    this.especialidadElegida = '';
+    this.especialidadElegida = null;
   }
 
   elegirEspecialista(especialista: Usuario) {
-    this.especialistaElegido = especialista.email;
+    this.especialistaElegido = especialista;
 
-    this.horariosEspecialista = this.horarios.filter(x => x.especialista === this.especialistaElegido && x.especialidad === this.especialidadElegida);
+    this.horariosEspecialista = this.horarios.filter(x => x.especialista === this.especialistaElegido.email && x.especialidad === this.especialidadElegida.nombre);
 
-    this.firestore.obtenerTurnosPorEspecialista(this.especialistaElegido).subscribe(turnos => {
+    this.firestore.obtenerTurnosPorEspecialista(this.especialistaElegido.email).subscribe(turnos => {
 
       this.buscarTurnosDisponibles();
 
@@ -113,7 +113,7 @@ export class AgendarTurnoComponent implements OnInit{
   }
 
   volverEspecialista() {
-    this.especialistaElegido = '';
+    this.especialistaElegido = null;
 
     this.horariosEspecialista = [];
 
@@ -140,7 +140,7 @@ export class AgendarTurnoComponent implements OnInit{
 
           let turno: Turno = {
             paciente: '',
-            especialista: this.especialistaElegido,
+            especialista: this.especialistaElegido.email,
             fecha: fechaTurno.toString(),
             horaInicio: 0,
             horaFin: 0,
@@ -158,7 +158,7 @@ export class AgendarTurnoComponent implements OnInit{
           
           let turno: Turno = {
             paciente: '',
-            especialista: this.especialistaElegido,
+            especialista: this.especialistaElegido.email,
             fecha: fechaTurno.toString(),
             horaInicio: 0,
             horaFin: 0,
@@ -176,7 +176,7 @@ export class AgendarTurnoComponent implements OnInit{
           
           let turno: Turno = {
             paciente: '',
-            especialista: this.especialistaElegido,
+            especialista: this.especialistaElegido.email,
             fecha: fechaTurno.toString(),
             horaInicio: 0,
             horaFin: 0,
@@ -194,7 +194,7 @@ export class AgendarTurnoComponent implements OnInit{
           
           let turno: Turno = {
             paciente: '',
-            especialista: this.especialistaElegido,
+            especialista: this.especialistaElegido.email,
             fecha: fechaTurno.toString(),
             horaInicio: 0,
             horaFin: 0,
@@ -212,7 +212,7 @@ export class AgendarTurnoComponent implements OnInit{
           
           let turno: Turno = {
             paciente: '',
-            especialista: this.especialistaElegido,
+            especialista: this.especialistaElegido.email,
             fecha: fechaTurno.toString(),
             horaInicio: 0,
             horaFin: 0,
@@ -230,7 +230,7 @@ export class AgendarTurnoComponent implements OnInit{
           
           let turno: Turno = {
             paciente: '',
-            especialista: this.especialistaElegido,
+            especialista: this.especialistaElegido.email,
             fecha: fechaTurno.toString(),
             horaInicio: 0,
             horaFin: 0,
@@ -271,7 +271,7 @@ export class AgendarTurnoComponent implements OnInit{
 
   asignarTurno(nuevoTurno: Turno){
     nuevoTurno.paciente = this.usrLocal.email;
-    nuevoTurno.especialidad = this.especialidadElegida;
+    nuevoTurno.especialidad = this.especialidadElegida.nombre;
     this.firestore.agregarTurno(nuevoTurno).then(() => {
       this.router.navigate(['/usuario/paciente']);
     });

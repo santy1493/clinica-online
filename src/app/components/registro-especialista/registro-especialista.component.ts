@@ -25,6 +25,8 @@ export class RegistroEspecialistaComponent implements OnInit {
   files: Blob[];
   fileUrl: string[];
 
+  captchaError: boolean = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private auth: AuthService,
@@ -55,6 +57,12 @@ export class RegistroEspecialistaComponent implements OnInit {
   }
 
   registrar() {
+
+    this.captchaError = false;
+
+    if(!this.captchaResuelto()) {
+      this.captchaError = true;
+    }
 
     const { nombre, apellido, dni, edad, especialidad, email, password, repeatPassword } = this.form.getRawValue();
 
@@ -167,5 +175,16 @@ export class RegistroEspecialistaComponent implements OnInit {
     console.log(e);
   }
 
+  resolved() {
+    this.captchaError = false;
+  }
+
+  captchaResuelto(): boolean {
+    if(grecaptcha.getResponse() == '') {
+      return false;
+    }
+    
+    return true;
+  }
 
 }

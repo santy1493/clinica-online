@@ -7,5 +7,7 @@ export interface Turno {
     horaInicio: number;
     horaFin: number;
     estado: string;
-    comentarioEspecialista: string;
+    cancelado?: string[];
+    rechazado?: string;
+    finalizado?: string;
 }

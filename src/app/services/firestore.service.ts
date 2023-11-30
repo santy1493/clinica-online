@@ -6,6 +6,7 @@ import { Usuario } from '../models/usuario';
 import { Horario } from '../models/horario';
 import { Turno } from '../models/turno';
 import { Especialidad } from '../models/especialidad';
+import { HistoriaClinica } from '../models/historia-clinica';
 
 
 @Injectable({
@@ -58,6 +59,11 @@ export class FirestoreService {
     });
   }
 
+  obtenerPacientes(): Observable<Usuario[]> {
+    const usuarioRef = collection(this.firestore, 'usuarios');
+    const q = query(usuarioRef, where('rol', '==', 'paciente'));
+    return collectionData(q, { idField: 'id'}) as Observable<Usuario[]>;
+  }
 
   obtenerEspecialistas(): Observable<Usuario[]> {
     const usuarioRef = collection(this.firestore, 'usuarios');
@@ -112,6 +118,41 @@ export class FirestoreService {
     return collectionData(q, { idField: 'id'}) as Observable<Turno[]>;
   }
 
+  cancelarTurno(turno: Turno, cancelado: string[]) {
+    const turnoRef = collection(this.firestore, 'turnos');
+    const documento = doc(turnoRef, turno.id);
+    return updateDoc(documento, {
+      estado: 'cancelado',
+      cancelado: cancelado
+    });
+  }
+
+  rechazarTurno(turno: Turno, rechazado: string) {
+    const turnoRef = collection(this.firestore, 'turnos');
+    const documento = doc(turnoRef, turno.id);
+    return updateDoc(documento, {
+      estado: 'rechazado',
+      rechazado: rechazado
+    });
+  }
+
+  aceptarTurno(turno: Turno) {
+    const turnoRef = collection(this.firestore, 'turnos');
+    const documento = doc(turnoRef, turno.id);
+    return updateDoc(documento, {
+      estado: 'aceptado'
+    });
+  }
+
+  finalizarTurno(turno: Turno, comentario: string) {
+    const turnoRef = collection(this.firestore, 'turnos');
+    const documento = doc(turnoRef, turno.id);
+    return updateDoc(documento, {
+      estado: 'finalizado',
+      finalizado: comentario
+    });
+  }
+
 
 
   /***************************** ESPECIALIDADES *****************************/
@@ -142,6 +183,20 @@ export class FirestoreService {
   obtenerObrasSociales(): Observable<any[]> {
     const obraSocialRef = collection(this.firestore, 'obras-sociales');
     return collectionData(obraSocialRef, { idField: 'id'}) as Observable<any[]>;
+  }
+
+  /***************************** OBRAS SOCIALES *****************************/
+
+  agregarHistoriaClinica(historia: HistoriaClinica) {
+    const historiaRef = collection(this.firestore, 'historias-clinicas');
+    return addDoc(historiaRef, historia).catch(err => {
+      console.log(err);
+    });
+  }
+
+  obtenerHistoriasClinicas(): Observable<HistoriaClinica[]> {
+    const historiaRef = collection(this.firestore, 'historias-clinicas');
+    return collectionData(historiaRef, { idField: 'id'}) as Observable<HistoriaClinica[]>;
   }
 
 

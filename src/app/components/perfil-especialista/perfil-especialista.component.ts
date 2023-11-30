@@ -180,7 +180,7 @@ export class PerfilEspecialistaComponent implements OnInit {
   }
 
 
-  buscarTurnosDisponibles() {
+  /*buscarTurnosDisponibles() {
 
     this.turnosDisponibles = [];
 
@@ -298,10 +298,10 @@ export class PerfilEspecialistaComponent implements OnInit {
       }
 
     }
-  }
+  }*/
 
 
-  formatearFecha(date: Date) {
+  /*formatearFecha(date: Date) {
     return date.toLocaleString();
   }
 
@@ -331,7 +331,7 @@ export class PerfilEspecialistaComponent implements OnInit {
 
   formatLabel(value: number): string {
     return `${value}`;
-  }
+  }*/
 
 
   setearEspecialidadNueva(e: any) {
@@ -339,7 +339,7 @@ export class PerfilEspecialistaComponent implements OnInit {
   }
 
 
-  setearInicioLunes(e) {
+  /*setearInicioLunes(e) {
     this.inicioLunes = e.target.value;
     console.log(this.inicioLunes);
   }
@@ -386,6 +386,6 @@ export class PerfilEspecialistaComponent implements OnInit {
   setearFinSabado(e) {
     this.finSabado = e.target.value;
     console.log(this.inicioLunes);
-  }
+  }*/
 
 }

@@ -144,8 +144,7 @@ export class AgendarTurnoComponent implements OnInit{
             fecha: fechaTurno.toString(),
             horaInicio: 0,
             horaFin: 0,
-            estado: 'pendiente',
-            comentarioEspecialista: ''
+            estado: 'pendiente'
           } 
 
           this.turnosDisponibles.push(turno);
@@ -162,8 +161,7 @@ export class AgendarTurnoComponent implements OnInit{
             fecha: fechaTurno.toString(),
             horaInicio: 0,
             horaFin: 0,
-            estado: 'pendiente',
-            comentarioEspecialista: ''
+            estado: 'pendiente'
           } 
 
           this.turnosDisponibles.push(turno);
@@ -180,8 +178,7 @@ export class AgendarTurnoComponent implements OnInit{
             fecha: fechaTurno.toString(),
             horaInicio: 0,
             horaFin: 0,
-            estado: 'pendiente',
-            comentarioEspecialista: ''
+            estado: 'pendiente'
           } 
 
           this.turnosDisponibles.push(turno);
@@ -198,8 +195,7 @@ export class AgendarTurnoComponent implements OnInit{
             fecha: fechaTurno.toString(),
             horaInicio: 0,
             horaFin: 0,
-            estado: 'pendiente',
-            comentarioEspecialista: ''
+            estado: 'pendiente'
           } 
 
           this.turnosDisponibles.push(turno);
@@ -216,8 +212,7 @@ export class AgendarTurnoComponent implements OnInit{
             fecha: fechaTurno.toString(),
             horaInicio: 0,
             horaFin: 0,
-            estado: 'pendiente',
-            comentarioEspecialista: ''
+            estado: 'pendiente'
           } 
 
           this.turnosDisponibles.push(turno);
@@ -234,8 +229,7 @@ export class AgendarTurnoComponent implements OnInit{
             fecha: fechaTurno.toString(),
             horaInicio: 0,
             horaFin: 0,
-            estado: 'pendiente',
-            comentarioEspecialista: ''
+            estado: 'pendiente'
           } 
 
           this.turnosDisponibles.push(turno);

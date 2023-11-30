@@ -7,11 +7,22 @@ import { FirebaseErrorService } from 'src/app/services/firebase-error.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { Storage, getDownloadURL, ref, uploadBytes } from '@angular/fire/storage';
 import { Especialidad } from 'src/app/models/especialidad';
+import { animate, style, transition, trigger } from '@angular/animations';
+
+const enterTransition = transition(':enter', [
+  style({
+    opacity: 0,
+  }),
+  animate(1000, style({ opacity: 1})),
+]);
+
+const fadeIn = trigger('fadeIn', [enterTransition]);
 
 @Component({
   selector: 'app-registro-especialista',
   templateUrl: './registro-especialista.component.html',
-  styleUrls: ['./registro-especialista.component.css']
+  styleUrls: ['./registro-especialista.component.css'],
+  animations: [fadeIn]
 })
 export class RegistroEspecialistaComponent implements OnInit {
   form: FormGroup;

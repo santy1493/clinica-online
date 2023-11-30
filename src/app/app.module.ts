@@ -30,7 +30,7 @@ import { SpeedDialFabComponent } from './components/speed-dial-fab/speed-dial-fa
     VerificarEmailComponent,
     UsuarioInactivoComponent,
     SinRolesComponent,
-    SpeedDialFabComponent,
+    SpeedDialFabComponent
   ],
   imports: [
     BrowserModule,

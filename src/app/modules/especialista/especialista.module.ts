@@ -10,12 +10,14 @@ import {MatSliderModule} from '@angular/material/slider';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TurnosEspecialistaComponent } from 'src/app/components/turnos-especialista/turnos-especialista.component';
 import { SharedModule } from '../shared/shared.module';
+import { MisPacientesComponent } from 'src/app/components/mis-pacientes/mis-pacientes.component';
 
 @NgModule({
   declarations: [
     SeccionEspecialistaComponent,
     PerfilEspecialistaComponent,
-    TurnosEspecialistaComponent
+    TurnosEspecialistaComponent,
+    MisPacientesComponent
   ],
   imports: [
     CommonModule,

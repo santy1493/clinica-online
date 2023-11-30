@@ -12,15 +12,15 @@
         </div>
     </div>
 
-    <button (click)="volverPaciente()"  *ngIf="pacienteElegido != null && especialidadElegida == null">volver a paciente</button>
+    <button  class="btn btn-success" (click)="volverPaciente()"  *ngIf="pacienteElegido != null && especialidadElegida == null">Otro paciente</button>
     <br>
     <div class="row justify-content-center mt-3"  *ngIf="especialidadElegida == null && pacienteElegido != null">
         <div class="col-3 mb-4" *ngFor="let especialidad of especialidades"  (click)="elegirEspecialidad(especialidad)">
-            <img [src]="especialidad.imagen" alt="" width="180px" class="especialidadImg">
+            <img [src]="especialidad.imagen ? especialidad.imagen : '../../../assets/generico.jpg'" alt="" width="180px" class="especialidadImg">
         </div>
     </div>
 
-    <button (click)="volverEspecialidad()"  *ngIf="especialidadElegida != null && especialistaElegido == null">volver a especialidad</button>
+    <button  class="btn btn-success" (click)="volverEspecialidad()"  *ngIf="especialidadElegida != null && especialistaElegido == null">Otra especialidad</button>
     <br>
     <div class="row justify-content-center mt-3"  *ngIf="especialidadElegida != null && especialistaElegido == null">
         <div class="col-3 mb-4" *ngFor="let especialista of filtroEspecialistas"  (click)="elegirEspecialista(especialista)">
@@ -38,7 +38,7 @@
             <div class="col-4">
                 <div class="row mb-4">
                     <div class="col-3">
-                        <button class="btn btn-success" (click)="volverEspecialista()">Elegir otro especialista</button>
+                        <button class="btn btn-success" (click)="volverEspecialista()">Otro especialista</button>
                     </div>
                 </div>
                 <div class="col-3 mb-4">

@@ -6,31 +6,22 @@ import { AuthService } from 'src/app/services/auth.service';
 import { FirebaseErrorService } from 'src/app/services/firebase-error.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { Storage, getDownloadURL, ref, uploadBytes } from '@angular/fire/storage';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { animate, style, transition, trigger } from '@angular/animations';
+
+const enterTransition = transition(':enter', [
+  style({
+    opacity: 0,
+  }),
+  animate(1000, style({ opacity: 1})),
+]);
+
+const fadeIn = trigger('fadeIn', [enterTransition]);
+
 @Component({
   selector: 'app-registro-paciente',
   templateUrl: './registro-paciente.component.html',
   styleUrls: ['./registro-paciente.component.css'],
-  animations: [ trigger('openClose', [
-    // ...
-    state('open', style({
-      height: '200px',
-      opacity: 1,
-      backgroundColor: 'yellow'
-    })),
-    state('closed', style({
-      height: '100px',
-      opacity: 0.8,
-      backgroundColor: 'blue'
-    })),
-    transition('open => closed', [
-      animate('1s')
-    ]),
-    transition('closed => open', [
-      animate('0.5s')
-    ]),
-  ]),
-]
+  animations: [fadeIn]
 })
 export class RegistroPacienteComponent implements OnInit {
   form: FormGroup;
@@ -46,6 +37,8 @@ export class RegistroPacienteComponent implements OnInit {
   obrasSociales: any[];
   error2Fotos: boolean = false;
 
+  captchaError: boolean = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private auth: AuthService,
@@ -58,6 +51,10 @@ export class RegistroPacienteComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
+
+    /*if(!this.captchaResuelto()) {
+      this.captchaError = true;
+    }*/
 
     this.firestore.obtenerObrasSociales().subscribe(res => {
       this.obrasSociales = res;
@@ -121,7 +118,6 @@ export class RegistroPacienteComponent implements OnInit {
       this.firestore.agregarUsuario(usuario);
       this.loading = false;
       this.auth.sendEmailVerification(userCred);
-      alert('usuario creado con exito');
       this.router.navigate(['/login'])
     } 
     catch (error) {
@@ -243,4 +239,16 @@ export class RegistroPacienteComponent implements OnInit {
     
     return null;
   }
+
+  /*resolved() {
+    this.captchaError = false;
+  }
+
+  captchaResuelto(): boolean {
+    if(grecaptcha.getResponse() == '') {
+      return false;
+    }
+    
+    return true;
+  }*/
 }

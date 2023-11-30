@@ -9,7 +9,7 @@
       
   </div>   
   <div class="col-2">
-    <button  *ngIf="usuario && usuario.rol === 'especialista'" class="btn btn-success"  routerLink="/usuario/especialista/nuevo-horario"><span style="font-weight: 900; font-size: 22px;">+</span> Nuevo Horario</button>
+    <button  *ngIf="usuario && usuario.rol === 'especialista'" class="btn btn-success"  (click)="irANuevoHorario()"><span style="font-weight: 900; font-size: 22px;">+</span> Nuevo Horario</button>
   </div>   
 </div>
 
@@ -75,7 +75,71 @@
           </div>
       </div>
 
+      <ng-container *ngIf="usuario.rol === 'paciente' && historias && historias.length > 0">
+        <h2>Historias Clinicas</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Especialidad</th>
+              <th scope="col">Especialista</th>
+              <th scope="col">Fecha</th>
+              <th scope="col">Hora</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let historia of historias, index as i">
+              <td>{{ i + 1}}</td>
+              <td>{{ historia.especialidad }}</td>
+              <td>{{ formatearEspecialista(historia.especialista) }}</td>
+              <td>{{ formatearFecha(historia.fecha) }}</td>
+              <td>{{ formatearHora(historia.fecha) }}</td>
+              <td>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDetalle" (click)="openModalDetalle(historia)">Ver Detalle</button>
+            </td>
+            </tr>
+          </tbody>
+        </table>
+      </ng-container>
+
+
     </div>
+  </div>
+
+  <div class="modal fade" id="modalDetalle" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <ng-container *ngIf="historiaDetalle">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title" id="exampleModalLabel">Detalle Historia Clinica</h2>
+          </div>
+          <div class="modal-body">
+              <div class="container-fluid">
+                <div class="row justify-content-center">
+  
+                    <h3>Historia Clinica</h3>
+  
+                    <span>Fecha: {{ formatearFecha(historiaDetalle.fecha) }}</span>
+                    <span>Especialidad: {{ historiaDetalle.especialidad }}</span>
+                    <span>Especialidad: {{ formatearEspecialista(historiaDetalle.especialista) }}</span>
+                    <span>Altura: {{ historiaDetalle.altura }}</span>
+                    <span>Peso: {{ historiaDetalle.peso }}</span>
+                    <span>Temperatura: {{ historiaDetalle.temperatura }}</span>
+                    <span>Presion: {{ historiaDetalle.presion }}</span>
+                    <span *ngIf="historiaDetalle.clave1">{{historiaDetalle.clave1 + ': ' + historiaDetalle.valor1 }}</span>
+                    <span *ngIf="historiaDetalle.clave2">{{historiaDetalle.clave2 + ': ' + historiaDetalle.valor2 }}</span>
+                    <span *ngIf="historiaDetalle.clave3">{{historiaDetalle.clave3 + ': ' + historiaDetalle.valor3 }}</span>
+  
+                </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeModalDetalle()">Cerrar</button>
+          </div>
+        </div>
+      </ng-container>
+      </div>
   </div>
 
   <app-loading *ngIf="loading"></app-loading>

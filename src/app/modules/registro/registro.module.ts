@@ -8,6 +8,7 @@ import { RegistroPacienteComponent } from 'src/app/components/registro-paciente/
 import { RegistroEspecialistaComponent } from 'src/app/components/registro-especialista/registro-especialista.component';
 
 import { RecaptchaModule } from "ng-recaptcha";
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { RecaptchaModule } from "ng-recaptcha";
     RegistroRoutingModule,
     ReactiveFormsModule,
     RecaptchaModule,
+    SharedModule
   ]
 })
 export class RegistroModule { }

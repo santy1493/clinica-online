@@ -50,8 +50,10 @@ export class RegistroEspecialistaComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.loading = true;
     this.firestore.obtenerEspecialidades().subscribe(res => {
       this.especialidades = res;
+      this.loading = false;
     });
 
     this.form = this.formBuilder.group({

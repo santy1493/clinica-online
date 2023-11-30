@@ -18,7 +18,6 @@
     <div class="card">
         <div class="row justify-content-center">
           <h1 class="text-center mt-3">Mis Turnos</h1>
-
           <div class="container p-5">
             <table class="table">
               <thead>
@@ -29,6 +28,7 @@
                   <th scope="col">Fecha</th>
                   <th scope="col">Hora</th>
                   <th scope="col">Estado</th>
+                  <th scope="col"></th>
                   <th scope="col"></th>
                 </tr>
               </thead>
@@ -45,6 +45,9 @@
                     <button class="btn btn-warning mx-1" *ngIf="turno.estado != 'cancelado' && turno.estado != 'rechazado' && turno.estado != 'aceptado' && turno.estado != 'finalizado'" data-bs-toggle="modal" data-bs-target="#modalRechazar" (click)="openModalRechazar(turno)">Rechazar</button>
                     <button class="btn btn-info" *ngIf="turno.estado != 'cancelado' && turno.estado != 'rechazado' && turno.estado != 'aceptado' && turno.estado != 'finalizado'" (click)="aceptarTurno(turno)">Aceptar</button>
                     <button class="btn btn-success" *ngIf="turno.estado == 'aceptado'" data-bs-toggle="modal" data-bs-target="#modalFinalizar" (click)="openModalFinalizar(turno)">Finalizar</button>
+                </td>
+                  <td>
+                    <button class="btn btn-primary" *ngIf="turno.estado === 'cancelado' || turno.estado === 'rechazado' || turno.estado === 'finalizado'" data-bs-toggle="modal" data-bs-target="#modalDetalle" (click)="openModalDetalle(turno)">Ver Detalle</button>
                 </td>
                 </tr>
               </tbody>
@@ -201,4 +204,69 @@
         </div>
     </div>
 
+
+    <div class="modal fade" id="modalDetalle" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <ng-container *ngIf="turnoDetalle">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h2 class="modal-title" id="exampleModalLabel">Detalle Turno</h2>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                  <div class="row justify-content-center">
+
+                    <h3><b>Datos Pacientes</b></h3>
+                    <span>Nombre: {{ turnoDetalle.paciente.nombre }}</span><br>
+                    <span>Apellido: {{ turnoDetalle.paciente.apellido }}</span><br>
+                    <span>DNI: {{ turnoDetalle.paciente.dni }}</span><br>
+                    <span>Edad: {{ turnoDetalle.paciente.edad }}</span><br>
+                    <span>Obra Social: {{ turnoDetalle.paciente.obraSocial }}</span><br><br>
+
+                    <h3><b>Detalle Especialista</b></h3>
+                    <span>Nombre: {{ turnoDetalle.especialista.nombre }}</span><br>
+                    <span>Apellido: {{ turnoDetalle.especialista.apellido }}</span><br>
+                    <span>Especialidad: {{ turnoDetalle.especialidad }}</span><br><br>
+
+                    <ng-container *ngIf="turnoDetalle.estado === 'cancelado'">
+                      <h3 style="color: crimson;"><b>CANCELADO</b></h3>
+                      <span><b class="font-weight-bold">Cancelado por</b>: {{ turnoDetalle.cancelado[0] === turnoDetalle.especialista.email ? turnoDetalle.especialista.apellido + ', ' + turnoDetalle.especialista.nombre : turnoDetalle.paciente.apellido + ', ' + turnoDetalle.paciente.nombre }}</span><br>
+                      <span><b>Comentario</b>: {{ turnoDetalle.cancelado[1] }}</span>
+                    </ng-container>
+
+                    <ng-container *ngIf="turnoDetalle.estado === 'rechazado'">
+                      <h3 style="color: red;"><b>RECHAZADO</b></h3>
+                      <span><b>Comentario</b>: {{ turnoDetalle.rechazado }}</span>
+                    </ng-container>
+
+                    <ng-container *ngIf="turnoDetalle.estado === 'finalizado'">
+                      <h3 style="color: green;"><b>FINALIZADO</b></h3>
+                      <span><b>Comentario</b>: {{ turnoDetalle.finalizado }}</span>
+
+                      <h3>Historia Clinica</h3>
+                      <span>Altura: {{ turnoDetalle.historia.altura }}</span>
+                      <span>Peso: {{ turnoDetalle.historia.peso }}</span>
+                      <span>Temperatura: {{ turnoDetalle.historia.temperatura }}</span>
+                      <span>Presion: {{ turnoDetalle.historia.presion }}</span>
+                      <span *ngIf="turnoDetalle.historia.clave1">{{turnoDetalle.historia.clave1 + ': ' + turnoDetalle.historia.valor1 }}</span>
+                      <span *ngIf="turnoDetalle.historia.clave2">{{turnoDetalle.historia.clave2 + ': ' + turnoDetalle.historia.valor2 }}</span>
+                      <span *ngIf="turnoDetalle.historia.clave3">{{turnoDetalle.historia.clave3 + ': ' + turnoDetalle.historia.valor3 }}</span>
+
+                    </ng-container>
+ 
+                  </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeModalDetalle()">Cerrar</button>
+            </div>
+          </div>
+        </ng-container>
+        </div>
+    </div>
+
+
+
+
+    <app-loading *ngIf="loading"></app-loading>
     

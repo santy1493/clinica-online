@@ -41,7 +41,7 @@ export class AppComponent implements OnInit {
         case event instanceof NavigationError: {
           setTimeout(() => {
             this.loading = false;
-          }, 1000);
+          }, 500);
           break;
         }
         default: {
@@ -57,6 +57,7 @@ export class AppComponent implements OnInit {
       if(res != null ) {
         this.firestore.obtenerUsuarios(res.email).subscribe(res => {
 
+          console.log(res);
           this.esAdmin = false;
           this.esPaciente = false;
           this.esEspecialista = false;

@@ -118,6 +118,11 @@ export class FirestoreService {
     return collectionData(q, { idField: 'id'}) as Observable<Turno[]>;
   }
 
+  obtenerTurnos(): Observable<Turno[]> {
+    const turnoRef = collection(this.firestore, 'turnos');
+    return collectionData(turnoRef, { idField: 'id'}) as Observable<Turno[]>;
+  }
+
   cancelarTurno(turno: Turno, cancelado: string[]) {
     const turnoRef = collection(this.firestore, 'turnos');
     const documento = doc(turnoRef, turno.id);

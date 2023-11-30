@@ -14,6 +14,7 @@ import { RoleGuard } from './guards/role.guard';
 import { SinRolesComponent } from './components/sin-roles/sin-roles.component';
 import { RegistroModule } from './modules/registro/registro.module';
 import { UsuarioModule } from './modules/usuario/usuario.module';
+import { YaLoagueadoGuard } from './guards/ya-loagueado.guard';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 const redirectLoggedInToHome = () => redirectLoggedInTo(['home']);
@@ -26,18 +27,21 @@ const routes: Routes = [
   },
   { 
     path: 'home',
+    canActivate: [ YaLoagueadoGuard ],
     //canActivate: [ EmailGuard, ActivoGuard ],
     //data: { authGuardPipe: redirectUnauthorizedToLogin },
     component: HomeComponent
   },
   { 
     path: 'login',
+    canActivate: [ YaLoagueadoGuard ],
     //canActivate: [ AuthGuard ],
     //data: { authGuardPipe: redirectLoggedInToHome },
     component: LoginComponent
   },
   {
     path: 'registro',
+    canActivate: [ YaLoagueadoGuard ],
     //canActivate: [ AuthGuard ],
     //data: { authGuardPipe: redirectLoggedInToHome },
     loadChildren: () =>

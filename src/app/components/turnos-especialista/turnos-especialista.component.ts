@@ -35,9 +35,13 @@ export class TurnosEspecialistaComponent {
 
   turnoAFinalizar: Turno = null;
 
+  turnoDetalle: TurnoCompleto = null;
+
   agregarDato1: boolean = false;
   agregarDato2: boolean = false;
   agregarDato3: boolean = false;
+
+  loading: boolean = false;
 
   constructor(
     private firestore: FirestoreService,
@@ -46,6 +50,7 @@ export class TurnosEspecialistaComponent {
   ) {}
   
   ngOnInit(): void {
+    this.loading = true;
     this.usrLocal = this.local.obtenerUsuario();
 
     this.firestore.obtenerPacientes().subscribe(pac => {
@@ -86,6 +91,8 @@ export class TurnosEspecialistaComponent {
               this.turnosCompletos.push(turnoCompleto);
 
             });
+
+            this.loading = false;
 
           });
         });
@@ -141,7 +148,7 @@ export class TurnosEspecialistaComponent {
   //CANCELAR
 
   openModalCancelar(turno: TurnoCompleto) {
-    const turnoFiltrado = this.misTurnos.filter(t => turno.id === turno.id);
+    const turnoFiltrado = this.misTurnos.filter(t => t.id === turno.id);
     this.turnoACancelar = turnoFiltrado[0];
   }
 
@@ -164,7 +171,7 @@ export class TurnosEspecialistaComponent {
   //RECHAZAR
 
   openModalRechazar(turno: TurnoCompleto) {
-    const turnoFiltrado = this.misTurnos.filter(t => turno.id === turno.id);
+    const turnoFiltrado = this.misTurnos.filter(t => t.id === turno.id);
     this.turnoARechazar = turnoFiltrado[0];
   }
 
@@ -185,14 +192,16 @@ export class TurnosEspecialistaComponent {
   //ACEPTAR
 
   aceptarTurno(turno: TurnoCompleto) {
-    const turnoFiltrado = this.misTurnos.filter(t => turno.id === turno.id);
+    console.log(turno);
+    const turnoFiltrado = this.misTurnos.filter(t => t.id === turno.id);
+    console.log(turnoFiltrado);
     this.firestore.aceptarTurno(turnoFiltrado[0]);
   }
 
   //FINALIZAR
 
   openModalFinalizar(turno: TurnoCompleto) {
-    const turnoFiltrado = this.misTurnos.filter(t => turno.id === turno.id);
+    const turnoFiltrado = this.misTurnos.filter(t => t.id === turno.id);
     this.turnoAFinalizar = turnoFiltrado[0];
   }
 
@@ -252,5 +261,15 @@ export class TurnosEspecialistaComponent {
     this.formFinalizar.controls['clave3'].addValidators(Validators.required);
     this.formFinalizar.controls['valor3'].addValidators(Validators.required);
   }
+
+
+  openModalDetalle(turno: TurnoCompleto) {
+    this.turnoDetalle = turno;
+  }
+
+  closeModalDetalle() {
+    this.turnoDetalle = null;
+  }
+
 
 }

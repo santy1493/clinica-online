@@ -10,7 +10,8 @@ const routes: Routes = [
     data: {
       roles: ['admin']
     },
-    component: SeccionUsuariosComponent
+    loadChildren: () =>
+      import('../admin/admin.module').then((m) => m.AdminModule),
   },
   { 
     path: 'paciente',

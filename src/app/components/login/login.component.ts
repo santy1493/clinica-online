@@ -45,6 +45,7 @@ export class LoginComponent {
     try {
 
       if(this.form.valid) {
+        this.loading = true;
 
         const { email, password } = this.form.getRawValue();
         
@@ -61,23 +62,25 @@ export class LoginComponent {
               this.local.guardarUsuario(usuario);
 
               if(usuario.rol === 'admin') {
-                this.router.navigate(['/usuario/admin']);
+                this.router.navigate(['/usuario/admin/mi-perfil']);
               }
               else if(usuario.rol === 'paciente') {
-                this.router.navigate(['/usuario/paciente']);
+                this.router.navigate(['/usuario/paciente/mi-perfil']);
               }
               else if(usuario.rol === 'especialista') {
-                this.router.navigate(['/usuario/paciente']);
+                this.router.navigate(['/usuario/paciente/mi-perfil']);
               }
             }
             else {
               await this.auth.logout();
+              this.loading = false;
               await this.swal.showCuentaInactiva();
               window.location.reload();
             }
           }
           else {
             await this.auth.logout();
+            this.loading = false;
             await this.swal.showVerificarEmail();
             window.location.reload();
           }

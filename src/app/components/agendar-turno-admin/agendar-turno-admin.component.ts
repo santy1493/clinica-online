@@ -10,11 +10,11 @@ import { FirestoreService } from 'src/app/services/firestore.service';
 import { LocalService } from 'src/app/services/local.service';
 
 @Component({
-  selector: 'app-agendar-turno',
-  templateUrl: './agendar-turno.component.html',
-  styleUrls: ['./agendar-turno.component.css']
+  selector: 'app-agendar-turno-admin',
+  templateUrl: './agendar-turno-admin.component.html',
+  styleUrls: ['./agendar-turno-admin.component.css']
 })
-export class AgendarTurnoComponent implements OnInit{
+export class AgendarTurnoAdminComponent {
 
   loading: boolean = false;
   usrLocal: UsuarioLocal;
@@ -22,9 +22,11 @@ export class AgendarTurnoComponent implements OnInit{
   especialidades: Especialidad[];
   horarios: Horario[];
   especialistas: Usuario[];
+  pacientes: Usuario[];
 
   especialidadElegida: Especialidad = null;
   especialistaElegido: Usuario = null;
+  pacienteElegido: Usuario = null;
 
   filtroHorarios: Horario[];
   filtroEspecialistas: Usuario[];
@@ -53,7 +55,12 @@ export class AgendarTurnoComponent implements OnInit{
         this.firestore.obtenerEspecialistas().subscribe(usr => {
           this.especialistas = usr;
 
-          this.loading = false;
+          this.firestore.obtenerPacientes().subscribe(pas => {
+
+            this.pacientes = pas;
+            this.loading = false;
+
+          })
         });
 
       });
@@ -113,6 +120,14 @@ export class AgendarTurnoComponent implements OnInit{
 
     })
 
+  }
+
+  elegirPaciente(paciente: Usuario) {
+    this.pacienteElegido = paciente;
+  }
+
+  volverPaciente() {
+    this.pacienteElegido = null;
   }
 
   volverEspecialista() {
@@ -267,23 +282,12 @@ export class AgendarTurnoComponent implements OnInit{
   }
 
   asignarTurno(nuevoTurno: Turno){
-    nuevoTurno.paciente = this.usrLocal.email;
+    nuevoTurno.paciente = this.pacienteElegido.email;
     nuevoTurno.especialidad = this.especialidadElegida.nombre;
+    console.log(nuevoTurno);
     this.firestore.agregarTurno(nuevoTurno).then(() => {
-      this.router.navigate(['/usuario/paciente/mis-turnos']);
+      this.router.navigate(['/usuario/admin/turnos']);
     });
 
   }
-
-
-
-
-
-
-
-
-
-
-
-
 }

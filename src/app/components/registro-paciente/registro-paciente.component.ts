@@ -57,9 +57,11 @@ export class RegistroPacienteComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.loading = true;
 
     this.firestore.obtenerObrasSociales().subscribe(res => {
       this.obrasSociales = res;
+      this.loading = false;
     });
 
     this.form = this.formBuilder.group({

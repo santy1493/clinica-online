@@ -8,12 +8,15 @@
     
           <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
             <li><a class="nav-link px-2 text-white" routerLink="/home">Home</a></li>
-            <li *ngIf="esAdmin"><a class="nav-link px-2 text-white" routerLink="/usuario/admin">Usuarios</a></li>
-            <li *ngIf="esEspecialista"><a class="nav-link px-2 text-white" routerLink="/usuario/especialista/perfil">Mi Perfil</a></li>
-            <li *ngIf="esEspecialista"><a class="nav-link px-2 text-white" routerLink="/usuario/especialista/turnos">Mis Turnos</a></li>
+            <li *ngIf="esAdmin"><a class="nav-link px-2 text-white" routerLink="/usuario/admin/mi-perfil">Mi Perfil</a></li>
+            <li *ngIf="esAdmin"><a class="nav-link px-2 text-white" routerLink="/usuario/admin/usuarios">Usuarios</a></li>
+            <li *ngIf="esAdmin"><a class="nav-link px-2 text-white" routerLink="/usuario/admin/turnos">Turnos</a></li>
+            <li *ngIf="esEspecialista"><a class="nav-link px-2 text-white" routerLink="/usuario/especialista/mi-perfil">Mi Perfil</a></li>
+            <li *ngIf="esEspecialista"><a class="nav-link px-2 text-white" routerLink="/usuario/especialista/mis-turnos">Mis Turnos</a></li>
             <li *ngIf="esPaciente"><a class="nav-link px-2 text-white" routerLink="/usuario/paciente/mi-perfil">Mi Perfil</a></li>
             <li *ngIf="esPaciente"><a class="nav-link px-2 text-white" routerLink="/usuario/paciente/mis-turnos">Mis Turnos</a></li>
           </ul>
+
     
           <!--<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
             <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
@@ -36,3 +39,5 @@
     </header>
     <router-outlet></router-outlet>
 </div>
+
+<app-loading *ngIf="loading"></app-loading>

@@ -10,7 +10,6 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { LoginComponent } from './components/login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { LoadingComponent } from './components/loading/loading.component';
 import { HomeComponent } from './components/home/home.component';
 import { VerificarEmailComponent } from './components/verificar-email/verificar-email.component';
 import { UsuarioInactivoComponent } from './components/usuario-inactivo/usuario-inactivo.component';
@@ -27,7 +26,6 @@ import { SharedModule } from './modules/shared/shared.module';
     AppComponent,
     HomeComponent,
     LoginComponent,
-    LoadingComponent,
     VerificarEmailComponent,
     UsuarioInactivoComponent,
     SinRolesComponent,
@@ -45,7 +43,8 @@ import { SharedModule } from './modules/shared/shared.module';
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage()),
     BrowserAnimationsModule,
-    AngularMaterialModule
+    AngularMaterialModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent],

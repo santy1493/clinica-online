@@ -1,6 +1,20 @@
 <div class="container col-lg-9 mt-4">
 
-    <div class="row justify-content-center mt-3"  *ngIf="especialidadElegida == null">
+
+    <div class="row justify-content-center mt-3"  *ngIf="pacienteElegido == null">
+        <div class="col-3 mb-4" *ngFor="let paciente of pacientes"  (click)="elegirPaciente(paciente)">
+            <div class="btnEspecialista">
+                <div class="nombreEspecialista">
+                    {{ paciente.apellido + ', ' + paciente.nombre }}
+                </div>
+                <img [src]="paciente.imagenes[0]" alt="" class="especialistaImg">
+            </div>
+        </div>
+    </div>
+
+    <button (click)="volverPaciente()"  *ngIf="pacienteElegido != null && especialidadElegida == null">volver a paciente</button>
+    <br>
+    <div class="row justify-content-center mt-3"  *ngIf="especialidadElegida == null && pacienteElegido != null">
         <div class="col-3 mb-4" *ngFor="let especialidad of especialidades"  (click)="elegirEspecialidad(especialidad)">
             <img [src]="especialidad.imagen" alt="" width="180px" class="especialidadImg">
         </div>
@@ -50,6 +64,7 @@
             </div>
         </div>
     </ng-container>
+
 </div>
 
 <app-loading *ngIf="loading"></app-loading>

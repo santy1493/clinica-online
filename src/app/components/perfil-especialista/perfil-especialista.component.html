@@ -85,3 +85,5 @@
     <p *ngFor="let item of horariosEspecialista">{{ item.especialidad }}</p>
 <button class="btn btn-primary" *ngFor="let turno of turnosDisponibles" (click)="asignarTurno(turno)">{{ formatDateTime1(turno.fecha) + ' ' + turno.paciente }}</button>
 -->
+
+<app-loading *ngIf="loading"></app-loading>

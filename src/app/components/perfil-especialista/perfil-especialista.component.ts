@@ -39,6 +39,7 @@ export class PerfilEspecialistaComponent implements OnInit {
   inicioSabado: number = null;
   finSabado: number = null;
 
+  loading: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -48,6 +49,8 @@ export class PerfilEspecialistaComponent implements OnInit {
   ) {}
   
   ngOnInit(): void {
+
+    this.loading = true;
 
     this.formHorario = this.formBuilder.group({
       especialidad: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
@@ -80,6 +83,7 @@ export class PerfilEspecialistaComponent implements OnInit {
 
     this.firestore.obtenerHorariosPorEspecialista(this.usrLocal.email).subscribe(res => {
       this.misHorarios = res;
+      this.loading = false;
     })
 
     /*this.firestore.obtenerHorariosPorEspecialista(this.usrLocal.email).subscribe(horarios => {

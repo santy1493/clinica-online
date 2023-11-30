@@ -1,10 +1,81 @@
-<div class="container col-lg-8 mt-4">
-    <div class="card">
-      <div class="row justify-content-center">
-        <div class="col-12">
 
+<div class="row mt-4">
+  <div class="col-1">
+  </div>   
+  <div class="col-4">
+
+  </div>   
+  <div class="col-5">
+      
+  </div>   
+  <div class="col-2">
+    <button  *ngIf="usuario && usuario.rol === 'especialista'" class="btn btn-success"  routerLink="/usuario/especialista/nuevo-horario"><span style="font-weight: 900; font-size: 22px;">+</span> Nuevo Horario</button>
+  </div>   
+</div>
+
+
+<div class="container col-lg-8 mt-4">
+    <div class="card  p-4" *ngIf="usuario">
+        <div class="row justify-content-center mb-4">
+            <h1 class="text-center my-3 font-weight-bold">Mi Perfil</h1>
+        </div>
+      <div class="row">
+        <div class="col-3">
+            
+            <mdb-carousel [controls]="true" [indicators]="true" [animation]="'fade'" *ngIf="usuario.imagenes.length > 1">
+            <mdb-carousel-item *ngFor="let item of usuario.imagenes">
+                <img
+                [src]="item"
+                class="d-block w-100 slideImg"
+                alt=""
+                />
+            </mdb-carousel-item>
+            </mdb-carousel>
+
+            <img
+                [src]="usuario.imagenes[0]"
+                class="d-block w-100 slideImg"
+                alt=""
+                *ngIf="usuario.imagenes.length <= 1"
+                />
 
         </div>
+        <div class="col-9 px-5">
+            <h4>Nombre: <span style="text-transform: capitalize;">{{ usuario.nombre }}</span></h4>
+            <h4>Apellido: <span style="text-transform: capitalize;">{{ usuario.apellido }}</span></h4>
+            <h4>DNI: <span>{{ usuario.dni }}</span></h4>
+            <h4>Edad: <span>{{ usuario.edad }}</span></h4>
+            <h4 *ngIf="usuario.rol === 'paciente'">Obra Social: <span>{{ usuario.obraSocial }}</span></h4>
+            <h4>Email: <span>{{ usuario.email }}</span></h4>
+        </div>
       </div>
+
+      <div class="row" *ngIf="usuario.rol === 'especialista'">
+        <h1 class="text-center my-3 font-weight-bold">Mi Horarios</h1>
+        <div class="accordion accordion-flush" id="accordionFlushExample">
+            <div class="accordion-item" *ngFor="let item of horarios">
+              <h2 class="accordion-header" [attr.id]="'flush-heading'+ item.id">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#flush-collapse' + item.id" aria-expanded="false" [attr.aria-controls]="'flush-collapse' + item.id">
+                  <span style="text-transform: capitalize;">{{ ' ' + item.especialidad  }}</span>
+                </button>
+              </h2>
+              <div [attr.id]="'flush-collapse' + item.id" class="accordion-collapse collapse" [attr.aria-labelledby]="'flush-heading' + item.id" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body border border-primary">
+                  <h3>Especialidad: {{ item.especialidad }}</h3>
+                  <h5><b>Dias y horarios</b></h5>
+                  <h5 *ngIf="item.lunes">Lunes: {{ item.lunes[0] + ' a ' + item.lunes[1] }}</h5>
+                  <h5 *ngIf="item.martes">Martes: {{ item.martes[0] + ' a ' + item.martes[1] }}</h5>
+                  <h5 *ngIf="item.miercoles">Miercoles: {{ item.miercoles[0] + ' a ' + item.miercoles[1] }}</h5>
+                  <h5 *ngIf="item.jueves">Jueves: {{ item.jueves[0] + ' a ' + item.jueves[1] }}</h5>
+                  <h5 *ngIf="item.viernes">Viernes: {{ item.viernes[0] + ' a ' + item.viernes[1] }}</h5>
+                  <h5 *ngIf="item.sabado">Sabado: {{ item.sabado[0] + ' a ' + item.sabado[1] }}</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+
     </div>
   </div>
+
+  <app-loading *ngIf="loading"></app-loading>

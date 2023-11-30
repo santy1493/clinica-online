@@ -7,9 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
-  declarations: [
-    SeccionUsuariosComponent,
-  ],
+  declarations: [],
   imports: [
     CommonModule,
     UsuarioRoutingModule,

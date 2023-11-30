@@ -15,11 +15,11 @@ const routes: Routes = [
     component: SeccionEspecialistaComponent
   },
   {
-    path: 'perfil',
+    path: 'nuevo-horario',
     component: PerfilEspecialistaComponent
   },
   {
-    path: 'turnos',
+    path: 'mis-turnos',
     component: TurnosEspecialistaComponent
   },
 ];

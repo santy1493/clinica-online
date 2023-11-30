@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HistoriaClinica } from 'src/app/models/historia-clinica';
 import { Turno } from 'src/app/models/turno';
+import { TurnoCompleto } from 'src/app/models/turno-completo';
 import { Usuario } from 'src/app/models/usuario';
 import { UsuarioLocal } from 'src/app/models/usuario-local';
 import { FirestoreService } from 'src/app/services/firestore.service';
@@ -19,7 +20,12 @@ export class TurnosEspecialistaComponent {
   usrLocal: UsuarioLocal;
   misTurnos: Turno[];
   misTurnosFiltrados: Turno[];
+
   pacientes: Usuario[];
+  especialistas: Usuario[];
+  historias: HistoriaClinica[];
+
+  turnosCompletos: TurnoCompleto[];
 
   turnoACancelar: Turno = null;
   comentarioCancelado: string = '';
@@ -42,13 +48,48 @@ export class TurnosEspecialistaComponent {
   ngOnInit(): void {
     this.usrLocal = this.local.obtenerUsuario();
 
-    this.firestore.obtenerPacientes().subscribe(usr => {
-      this.pacientes = usr;
+    this.firestore.obtenerPacientes().subscribe(pac => {
+      this.pacientes = pac;
 
-      this.firestore.obtenerTurnosPorEspecialista(this.usrLocal.email).subscribe(res => {
-        this.misTurnos = res;
+      this.firestore.obtenerEspecialistas().subscribe(esp => {
+        this.especialistas = esp;
+
+        this.firestore.obtenerHistoriasClinicas().subscribe(his => {
+          this.historias = his;
+
+          this.firestore.obtenerTurnosPorEspecialista(this.usrLocal.email).subscribe(res => {
+            this.misTurnos = res;
+
+            this.turnosCompletos = [];
+
+            this.misTurnos.forEach(t => {
+
+              const paciente = this.pacientes.filter(p => p.email === t.paciente);
+              const especialista = this.especialistas.filter(e => e.email === t.especialista);
+              const historia = this.historias.filter(h => h.turno === t.id);
+
+              const turnoCompleto: TurnoCompleto = {
+                id: t.id,
+                paciente: paciente ? paciente[0] : null,
+                especialista: especialista ? especialista[0] : null,
+                especialidad: t.especialidad,
+                fecha: t.fecha,
+                horaInicio: t.horaInicio,
+                horaFin: t.horaFin,
+                estado: t.estado,
+                cancelado: t.cancelado,
+                rechazado: t.rechazado,
+                finalizado: t.finalizado,
+                historia: historia ? historia[0] : null
+              }
+
+              this.turnosCompletos.push(turnoCompleto);
+
+            });
+
+          });
+        });
       });
-
     });
 
     this.formFinalizar = this.formBuilder.group({
@@ -99,8 +140,9 @@ export class TurnosEspecialistaComponent {
 
   //CANCELAR
 
-  openModalCancelar(turno: Turno) {
-    this.turnoACancelar = turno;
+  openModalCancelar(turno: TurnoCompleto) {
+    const turnoFiltrado = this.misTurnos.filter(t => turno.id === turno.id);
+    this.turnoACancelar = turnoFiltrado[0];
   }
 
   closeModalCancelar() {
@@ -121,8 +163,9 @@ export class TurnosEspecialistaComponent {
 
   //RECHAZAR
 
-  openModalRechazar(turno: Turno) {
-    this.turnoARechazar = turno;
+  openModalRechazar(turno: TurnoCompleto) {
+    const turnoFiltrado = this.misTurnos.filter(t => turno.id === turno.id);
+    this.turnoARechazar = turnoFiltrado[0];
   }
 
   closeModalRechazar() {
@@ -141,14 +184,16 @@ export class TurnosEspecialistaComponent {
 
   //ACEPTAR
 
-  aceptarTurno(turno: Turno) {
-    this.firestore.aceptarTurno(turno);
+  aceptarTurno(turno: TurnoCompleto) {
+    const turnoFiltrado = this.misTurnos.filter(t => turno.id === turno.id);
+    this.firestore.aceptarTurno(turnoFiltrado[0]);
   }
 
   //FINALIZAR
 
-  openModalFinalizar(turno: Turno) {
-    this.turnoAFinalizar = turno;
+  openModalFinalizar(turno: TurnoCompleto) {
+    const turnoFiltrado = this.misTurnos.filter(t => turno.id === turno.id);
+    this.turnoAFinalizar = turnoFiltrado[0];
   }
 
   closeModalFinalizar() {
@@ -163,6 +208,7 @@ export class TurnosEspecialistaComponent {
     let fecha = new Date();
 
     let historiaClinica: HistoriaClinica = {
+      turno: this.turnoAFinalizar.id,
       paciente: this.turnoAFinalizar.paciente,
       especialista: this.turnoAFinalizar.especialista,
       especialidad: this.turnoAFinalizar.especialidad,

@@ -17,9 +17,10 @@ import { UsuarioInactivoComponent } from './components/usuario-inactivo/usuario-
 import { SinRolesComponent } from './components/sin-roles/sin-roles.component';
 import { UsuarioModule } from './modules/usuario/usuario.module';
 import { RegistroModule } from './modules/registro/registro.module';
-import { NoopAnimationsModule, BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularMaterialModule } from './modules/angular-material/angular-material.module';
 import { SpeedDialFabComponent } from './components/speed-dial-fab/speed-dial-fab.component';
+import { SharedModule } from './modules/shared/shared.module';
 
 @NgModule({
   declarations: [

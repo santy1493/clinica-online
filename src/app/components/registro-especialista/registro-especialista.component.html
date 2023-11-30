@@ -84,7 +84,7 @@
             <div class="col-10  mb-3">
               <re-captcha (resolved)="resolved()" siteKey="6LfFDh0pAAAAAGAjCwuBHLYDCW4VHZ_vViTkj1wc"></re-captcha>
             </div>
-            <div class="row justify-content-center  mt-3" *ngIf="!captchaError">
+            <div class="row justify-content-center  mt-3" *ngIf="captchaError">
               <div class="col-3 alert alert-danger d-flex align-items-center" role="alert">
                 <svg class="bi flex-shrink-0 me-2" width="18" height="18" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
                 <div style="font-size: 13px;">

@@ -105,7 +105,8 @@ export class RegistroEspecialistaComponent implements OnInit {
       this.firestore.agregarUsuario(usuario);
       this.loading = false;
       this.auth.sendEmailVerification(res);
-      this.router.navigate(['home']);
+      this.router.navigate(['login']);
+      window
     })
     .catch(error => {
       this.loading = false;

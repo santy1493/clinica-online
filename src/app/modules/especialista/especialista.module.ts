@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatSliderModule} from '@angular/material/slider';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TurnosEspecialistaComponent } from 'src/app/components/turnos-especialista/turnos-especialista.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { TurnosEspecialistaComponent } from 'src/app/components/turnos-especiali
     EspecialistaRoutingModule,
     ReactiveFormsModule,
     MatSliderModule,
-    FormsModule
+    FormsModule,
+    SharedModule
   ]
 })
 export class EspecialistaModule { }

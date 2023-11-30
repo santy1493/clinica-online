@@ -80,7 +80,6 @@ export class PerfilEspecialistaComponent implements OnInit {
 
     this.firestore.obtenerHorariosPorEspecialista(this.usrLocal.email).subscribe(res => {
       this.misHorarios = res;
-      console.log(this.misHorarios);
     })
 
     /*this.firestore.obtenerHorariosPorEspecialista(this.usrLocal.email).subscribe(horarios => {
@@ -175,8 +174,7 @@ export class PerfilEspecialistaComponent implements OnInit {
       sabado: sabado || null
     }
 
-    console.log(horario);
-    //this.firestore.agregarHorario(horario);
+    this.firestore.agregarHorario(horario);
   }
 
 

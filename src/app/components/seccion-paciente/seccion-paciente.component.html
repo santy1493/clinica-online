@@ -4,7 +4,7 @@
     <div class="col-4">
         <div class="card">
           <label>Filtro: </label>
-          <input type="password" placeholder="Ingrese su contraseña" class="form-control" [(ngModel)]="palabraFiltro" (change)="filtrarTurnos()">
+          <input type="text" placeholder="Ingrese su contraseña" class="form-control" [(ngModel)]="palabraFiltro" (change)="filtrarTurnos()">
         </div>
     </div>   
     <div class="col-5">
@@ -33,10 +33,10 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let turno of misTurnos, index as i">
+                <tr *ngFor="let turno of turnosCompletos | filtroTurnos: palabraFiltro, index as i">
                   <td>{{ i + 1}}</td>
                   <td>{{ turno.especialidad }}</td>
-                  <td>{{ formatearEspecialista(turno.especialista) }}</td>
+                  <td>{{ formatearEspecialista(turno.especialista.email) }}</td>
                   <td>{{ formatearFecha(turno.fecha) }}</td>
                   <td>{{ formatearHora(turno.fecha) }}</td>
                   <td><button class="btn btn-danger" *ngIf="turno.estado != 'cancelado'" (click)="cancelarTurno(turno)">Cancelar</button></td>

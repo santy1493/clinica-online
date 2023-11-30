@@ -8,20 +8,24 @@ export class SwalService {
 
   constructor() { }
 
-  showVerificarEmail() {
-    Swal.fire({
+  async showVerificarEmail() {
+    const result = await Swal.fire({
       icon: "warning",
       title: "Correo no verificado",
       text: "Por favor verifique su casilla de correo para activar su cuenta"
     });
+
+    return result;
   }
 
-  showCuentaInactiva() {
-    Swal.fire({
+  async showCuentaInactiva() {
+    const result = await Swal.fire({
       icon: "warning",
       title: "Cuenta inactiva",
       text: "Su cuenta no ha sido activada por un administrador"
     });
+
+    return result;
   }
 
   showHorarioRepetido() {

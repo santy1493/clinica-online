@@ -72,12 +72,14 @@ export class LoginComponent {
             }
             else {
               await this.auth.logout();
-              this.swal.showCuentaInactiva();
+              await this.swal.showCuentaInactiva();
+              window.location.reload();
             }
           }
           else {
             await this.auth.logout();
-            this.swal.showVerificarEmail();
+            await this.swal.showVerificarEmail();
+            window.location.reload();
           }
         }
       }

@@ -1,5 +1,6 @@
 export interface HistoriaClinica {
     id?: string,
+    turno: string,
     paciente: string;
     especialista: string;
     especialidad: string;

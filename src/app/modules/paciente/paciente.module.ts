@@ -5,6 +5,7 @@ import { PacienteRoutingModule } from './paciente-routing.module';
 import { AgendarTurnoComponent } from 'src/app/components/agendar-turno/agendar-turno.component';
 import { SeccionPacienteComponent } from 'src/app/components/seccion-paciente/seccion-paciente.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     FormsModule,
     PacienteRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ]
 })
 export class PacienteModule { }

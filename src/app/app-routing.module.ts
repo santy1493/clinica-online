@@ -27,6 +27,7 @@ const routes: Routes = [
   },
   { 
     path: 'home',
+    data: {state:  'home'},
     canActivate: [ YaLoagueadoGuard ],
     //canActivate: [ EmailGuard, ActivoGuard ],
     //data: { authGuardPipe: redirectUnauthorizedToLogin },
@@ -35,6 +36,7 @@ const routes: Routes = [
   { 
     path: 'login',
     canActivate: [ YaLoagueadoGuard ],
+    data: {state:  'login'},
     //canActivate: [ AuthGuard ],
     //data: { authGuardPipe: redirectLoggedInToHome },
     component: LoginComponent

@@ -3,12 +3,18 @@ import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Rout
 import { AuthService } from './services/auth.service';
 import { filter } from 'rxjs/operators';
 import { FirestoreService } from './services/firestore.service';
+import  {trigger, transition, useAnimation}  from  "@angular/animations";
+import  {rotateRoomToTop}  from  "ngx-router-animations";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  animations:  [
+    trigger('rotateRoomToTop',  [ transition('home => login', useAnimation(rotateRoomToTop))])
+    ]
 })
+
 export class AppComponent implements OnInit {
   
   title = 'tp_clinica';
@@ -22,14 +28,14 @@ export class AppComponent implements OnInit {
   esPaciente: boolean = false;
   esEspecialista: boolean = false;
 
-  loading = true;
+  loading = false;
 
   constructor(
     private router: Router,
     private auth: AuthService,
     private firestore: FirestoreService
     ) {
-    this.router.events.subscribe((event: any) => {
+   /* this.router.events.subscribe((event: any) => {
       switch (true) {
         case event instanceof NavigationStart: {
           this.loading = true;
@@ -41,14 +47,14 @@ export class AppComponent implements OnInit {
         case event instanceof NavigationError: {
           setTimeout(() => {
             this.loading = false;
-          }, 500);
+          }, 300);
           break;
         }
         default: {
           break;
         }
       }
-    });
+    });*/
   }
 
   ngOnInit(): void {
@@ -104,4 +110,9 @@ export class AppComponent implements OnInit {
     window.location.reload();
     //this.router.navigate(['/login']);
   }
+
+  getState(outlet)  {
+		return outlet.activatedRouteData.state;
+	}
+
 }

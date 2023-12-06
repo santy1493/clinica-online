@@ -20,6 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularMaterialModule } from './modules/angular-material/angular-material.module';
 import { SpeedDialFabComponent } from './components/speed-dial-fab/speed-dial-fab.component';
 import { SharedModule } from './modules/shared/shared.module';
+import { ResaltarDirective } from './directives/resaltar.directive';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { SharedModule } from './modules/shared/shared.module';
     VerificarEmailComponent,
     UsuarioInactivoComponent,
     SinRolesComponent,
-    SpeedDialFabComponent
+    SpeedDialFabComponent,
+    ResaltarDirective,
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,9 @@
 
 <div class="row mt-4">
-  <div class="col-1">
+  <div class="col-1"></div>
+  <div class="col-4">
+    <button class="btn btn-primary mx-2" (click)="mostrarPacientes = !mostrarPacientes" [disabled]="mostrarPacientes">Pacientes</button>
+    <button class="btn btn-primary mx-2" (click)="mostrarPacientes = !mostrarPacientes" [disabled]="!mostrarPacientes">Especialistas</button>
   </div>   
   <div class="col-5">
       
@@ -54,7 +57,39 @@
 </div>-->
 
 
-<div class="container col-lg-8 mt-4">
+
+
+<div class="container col-lg-8 mt-4" *ngIf="mostrarPacientes">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4 card m-4 p-3" *ngFor="let item of pacientesHistorias">
+      <div class="row">
+        <div class="col-10 mb-2">
+          <h3>{{ item.paciente.apellido + ' ' + item.paciente.nombre }}</h3>
+        </div>
+        <div class="col-2">
+          <button class="btn btn-success" *ngIf="!item.paciente.activo" (click)="activarUsuario(item.paciente)">X</button>
+          <button class="btn btn-danger" *ngIf="item.paciente.activo" (click)="desactivarUsuario(item.paciente)">X</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-5">
+          <img [src]="item.paciente.imagenes ? item.paciente.imagenes[0] : ''" class="img-thumbnail" alt="..." width="150px" height="150px">
+        </div>
+        <div class="col-7">
+          <span>DNI: {{ item.paciente.dni}}</span><br>
+          <span>Edad: {{ item.paciente.edad}}</span><br>
+          <span>Email: {{ item.paciente.email}}</span><br>
+          <span>Obra Social: {{ item.paciente.obraSocial}}</span><br>
+        </div>
+        <button class="btn btn-success" (click)="generatePdf(item.paciente)">Exportar a pdf</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!--<div class="container col-lg-8 mt-4" *ngIf="mostrarPacientes">
   <div class="card">
     <h1 class="text-center mt-3">Lista de Pacientes</h1>
     <div class="accordion accordion-flush" id="accordionFlushExample">
@@ -104,11 +139,11 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
-<div class="container col-lg-8 mt-4">
+<div class="container col-lg-8 mt-4" *ngIf="!mostrarPacientes">
   <div class="card">
-    <h1 class="text-center mt-3">Lista de usuarios</h1>
+    <h1 class="text-center mt-3">Lista de Especialistas</h1>
     <div class="accordion accordion-flush" id="accordionFlushExample">
       <div class="accordion-item" *ngFor="let item of especialistas">
         <h2 class="accordion-header" [attr.id]="'flush-heading'+ item.id">
@@ -129,7 +164,10 @@
 </div>
 
 
-<div class="modal fade" id="modalDetalle" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+
+
+
+<div class="modal fade" id="modalDetalle" data-bs-backdrop="false" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <ng-container *ngIf="historiaDetalle">
       <div class="modal-content">
@@ -163,8 +201,6 @@
     </ng-container>
     </div>
 </div>
-
-
 
 <!--
 <app-loading *ngIf="loading"></app-loading>

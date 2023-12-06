@@ -55,7 +55,10 @@ export class ExcelService {
     const titleRow = worksheet.addRow([title]);
     titleRow.font = { name: 'Corbel', family: 4, size: 16, underline: 'double', bold: true };
     worksheet.addRow([]);
-    const subTitleRow = worksheet.addRow(['Date : 06-09-2020']);
+
+    let fechaHora = new Date();
+
+    const subTitleRow = worksheet.addRow(['Fecha y Hora: ' + this.formatearFecha(fechaHora)]);
 
     worksheet.mergeCells('A1:D2');
 
@@ -105,7 +108,7 @@ export class ExcelService {
 
 
 // Footer Row
-    const footerRow = worksheet.addRow(['This is system generated excel sheet.']);
+    /*const footerRow = worksheet.addRow(['This is system generated excel sheet.']);
     footerRow.getCell(1).fill = {
   type: 'pattern',
   pattern: 'solid',
@@ -114,7 +117,7 @@ export class ExcelService {
     footerRow.getCell(1).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
 
 // Merge Cells
-    worksheet.mergeCells(`A${footerRow.number}:F${footerRow.number}`);
+    worksheet.mergeCells(`A${footerRow.number}:F${footerRow.number}`);*/
 
 
 
@@ -159,7 +162,7 @@ export class ExcelService {
     const titleRow2 = worksheet2.addRow([title2]);
     titleRow2.font = { name: 'Corbel', family: 4, size: 16, underline: 'double', bold: true };
     worksheet2.addRow([]);
-    const subTitleRow2 = worksheet2.addRow(['Date : 06-09-2020']);
+    const subTitleRow2 = worksheet2.addRow(['Fecha y Hora: ' + this.formatearFecha(fechaHora)]);
 
     worksheet2.mergeCells('A1:D2');
 
@@ -209,7 +212,7 @@ export class ExcelService {
 
 
 // Footer Row
-    const footerRow2 = worksheet2.addRow(['This is system generated excel sheet.']);
+    /*const footerRow2 = worksheet2.addRow(['This is system generated excel sheet.']);
     footerRow2.getCell(1).fill = {
   type: 'pattern',
   pattern: 'solid',
@@ -218,7 +221,7 @@ export class ExcelService {
     footerRow2.getCell(1).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
 
 // Merge Cells
-    worksheet.mergeCells(`A${footerRow2.number}:F${footerRow2.number}`);
+    worksheet.mergeCells(`A${footerRow2.number}:F${footerRow2.number}`);*/
 
 
 
@@ -226,8 +229,17 @@ export class ExcelService {
 // Generate Excel File with given name
     workbook.xlsx.writeBuffer().then((data: any) => {
   const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-  fs.saveAs(blob, 'SocialShare.xlsx');
+  fs.saveAs(blob, 'ListaUsuarios_ ' + fechaHora.getTime() + '.xlsx');
 });
 
   }
+
+
+  formatearFecha(date: any) {
+    let fecha = date.toLocaleDateString('en-GB');
+    let hora = date.toLocaleTimeString('en-GB').split(':');
+    return `${fecha} ${hora[0]}:${hora[1]}:${hora[2]}`;
+  }
+
+
 }

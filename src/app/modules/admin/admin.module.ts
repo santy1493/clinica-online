@@ -8,13 +8,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { TurnosAdminComponent } from 'src/app/components/turnos-admin/turnos-admin.component';
 import { MiPerfilComponent } from 'src/app/components/mi-perfil/mi-perfil.component';
+import { InformesAdminComponent } from 'src/app/components/informes-admin/informes-admin.component';
 
 
 @NgModule({
   declarations: [
     SeccionUsuariosComponent,
     AgendarTurnoAdminComponent,
-    TurnosAdminComponent
+    TurnosAdminComponent,
+    InformesAdminComponent
   ],
   imports: [
     CommonModule,

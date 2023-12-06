@@ -11,6 +11,7 @@
             <li *ngIf="esAdmin"><a class="nav-link px-2 text-white" routerLink="/usuario/admin/mi-perfil">Mi Perfil</a></li>
             <li *ngIf="esAdmin"><a class="nav-link px-2 text-white" routerLink="/usuario/admin/usuarios">Usuarios</a></li>
             <li *ngIf="esAdmin"><a class="nav-link px-2 text-white" routerLink="/usuario/admin/turnos">Turnos</a></li>
+            <li *ngIf="esAdmin"><a class="nav-link px-2 text-white" routerLink="/usuario/admin/informes">Informes</a></li>
             <li *ngIf="esEspecialista"><a class="nav-link px-2 text-white" routerLink="/usuario/especialista/mi-perfil">Mi Perfil</a></li>
             <li *ngIf="esEspecialista"><a class="nav-link px-2 text-white" routerLink="/usuario/especialista/mis-turnos">Mis Turnos</a></li>
             <li *ngIf="esEspecialista"><a class="nav-link px-2 text-white" routerLink="/usuario/especialista/pacientes">Pacientes</a></li>
@@ -38,7 +39,12 @@
         </div>
       </div>
     </header>
-    <router-outlet></router-outlet>
+    <div
+    class="router-wrapper"
+    [@rotateRoomToTop]="getState(o)"
+    >
+      <router-outlet #o="outlet">  </router-outlet>
+    </div>
 </div>
 
 <app-loading *ngIf="loading"></app-loading>

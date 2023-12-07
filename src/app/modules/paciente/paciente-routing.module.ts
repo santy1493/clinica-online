@@ -7,10 +7,12 @@ import { SeccionPacienteComponent } from 'src/app/components/seccion-paciente/se
 const routes: Routes = [
   { 
     path: 'mi-perfil',
+    data: {state:  'perfil-paciente'},
     component: MiPerfilComponent
   },
   { 
     path: 'mis-turnos',
+    data: {state:  'turnos-paciente'},
     component: SeccionPacienteComponent
   },
   {

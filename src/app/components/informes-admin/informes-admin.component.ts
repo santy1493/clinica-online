@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Log } from 'src/app/models/log';
 import { FirestoreService } from 'src/app/services/firestore.service';
-
+import html2canvas from 'html2canvas';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -56,7 +56,7 @@ export class InformesAdminComponent implements OnInit {
   legendPosition: string = 'below';
 
   // options
-  gradient: boolean = true;
+  gradient: boolean = false;
   showLegend: boolean = true;
   showLabels: boolean = true;
   isDoughnut: boolean = false;
@@ -157,6 +157,11 @@ export class InformesAdminComponent implements OnInit {
   }
 
 
+  formatearHora(fecha: string) {
+    let date = new Date(fecha);
+    let hora = date.toLocaleTimeString('en-GB').split(':');
+    return `${hora[0]}:${hora[1]}`;
+  }
 
 
 
@@ -312,6 +317,111 @@ export class InformesAdminComponent implements OnInit {
       img.src = url;
     });
   }
+
+
+  generatePdfChart(elementId: string) {
+    let DATA = <HTMLElement>document.getElementById(elementId);
+
+    let titulo = this.generarTitulo(elementId);
+
+    html2canvas(DATA, {height: 500}).then(async (canvas) => {
+
+      const FILEURI = canvas.toDataURL('image/jpg');
+      console.log(FILEURI);
+
+      const docDefinition = {
+  
+      content: [
+        {
+          
+          style: "tableTitle",
+          table: {
+            widths: [60, 300],
+            body: [
+                [{
+                  image: await this.getBase64ImageFromURL("../../../assets/generico.png"),
+                  height: 50,
+                  width: 50,
+                  border: [false, false, false, false]
+                },
+                {
+                  text: 'Clinica Online',
+                  style: "headerTitle",
+                  border: [false, false, false, false]
+                }
+              ]
+              
+            ]
+          }
+        },
+        {
+          text: titulo,
+          style: "subheader"
+        },
+        {
+          image: await this.getBase64ImageFromURL(FILEURI),
+          //height: 500,
+          //width: 500,
+          //border: [false, false, false, false]
+        },
+      ],
+
+      styles: {
+        header: {
+          fontSize: 18,
+          bold: true,
+          margin: [0, 0, 0, 10]
+        },
+        headerTitle: {
+          fontSize: 30,
+          bold: true,
+          margin: [20, 7, 0, 20]
+        },
+        subheader: {
+          fontSize: 16,
+          bold: true,
+          margin: [0, 30, 100, 5]
+        },
+        tableExample: {
+          margin: [0, 5, 0, 15]
+        },
+        tableTitle: {
+          margin: [0, 5, 0, 40],
+        }
+      }
+      
+    };
+    pdfMake.createPdf(docDefinition).download("Logs.pdf");
+    });
+  }
+
+  rederGroupedBarChart(){
+    html2canvas(document.getElementById('turnosPorEspecialidad'), {height: 500, scale: 1})
+      .then((canvas) => {
+        console.log(canvas);
+        document.body.appendChild(canvas);
+      })
+  }
+
+  generarTitulo(id: string) {
+    let titulo = '';
+    if(id === 'turnosPorEspecialidad') {
+      titulo = 'Turnos por Especialista';
+    }
+    else if(id === 'turnosPorDia') {
+      titulo = 'Turnos por Fecha';
+    }
+    else if(id === 'turnosSolicitadosPorEspecialista') {
+      titulo = 'Turnos Solicitados por Especialista';
+    }
+    else if(id === 'turnosFinalizadosPorEspecialista') {
+      titulo = 'Turnos Finalizados por Especialista';
+    }
+    return titulo;
+  }
+
+  
+
 
 }
 

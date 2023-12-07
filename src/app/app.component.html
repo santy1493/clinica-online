@@ -42,6 +42,10 @@
     <div
     class="router-wrapper"
     [@rotateRoomToTop]="getState(o)"
+    [@rotateCarouselToTop]="getState(o)"
+    [@rotateCubeToTop]="getState(o)"
+    [@rotateCubeToBottom]="getState(o)"
+    [@rotateCarouselToBottom]="getState(o)"
     >
       <router-outlet #o="outlet">  </router-outlet>
     </div>

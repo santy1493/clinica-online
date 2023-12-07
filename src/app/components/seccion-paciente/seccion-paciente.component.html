@@ -35,7 +35,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let turno of turnosCompletos | filtroTurnos: palabraFiltro, index as i">
+                <tr *ngFor="let turno of turnosCompletos | filtroTurnos: palabraFiltro, index as i" appResaltar>
                   <td>{{ i + 1}}</td>
                   <td>{{ turno.especialidad }}</td>
                   <td>{{ formatearEspecialista(turno.especialista.email) }}</td>

@@ -37,6 +37,8 @@ export class RegistroEspecialistaComponent implements OnInit {
   fileUrl: string[];
 
   captchaError: boolean = false;
+  captchaResueltoBool: boolean = false;
+  habilitarCaptcha: boolean = true;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -73,8 +75,11 @@ export class RegistroEspecialistaComponent implements OnInit {
 
     this.captchaError = false;
 
-    if(!this.captchaResuelto()) {
-      this.captchaError = true;
+    if(this.habilitarCaptcha) {
+      if(!this.captchaResueltoBool) {
+        this.captchaError = true;
+        return;
+      }
     }
 
     const { nombre, apellido, dni, edad, especialidad, email, password, repeatPassword } = this.form.getRawValue();
@@ -199,6 +204,14 @@ export class RegistroEspecialistaComponent implements OnInit {
     }
     
     return true;
+  }
+
+  captchaResuelto2(event) {
+    this.captchaResueltoBool = event;
+  }
+
+  deshabilitarCaptcha() {
+    this.habilitarCaptcha = !this.habilitarCaptcha;
   }
 
 }

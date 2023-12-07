@@ -4,14 +4,18 @@ import { AuthService } from './services/auth.service';
 import { filter } from 'rxjs/operators';
 import { FirestoreService } from './services/firestore.service';
 import  {trigger, transition, useAnimation}  from  "@angular/animations";
-import  {rotateRoomToTop}  from  "ngx-router-animations";
+import  {rotateRoomToTop, rotateCarouselToTop, rotateCubeToTop, rotateCubeToBottom, rotateCarouselToBottom}  from  "ngx-router-animations";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   animations:  [
-    trigger('rotateRoomToTop',  [ transition('home => login', useAnimation(rotateRoomToTop))])
+    trigger('rotateRoomToTop',  [ transition('home => login', useAnimation(rotateRoomToTop))]),
+    trigger('rotateCarouselToTop',  [ transition('perfil-especialista => turnos-especialista', useAnimation(rotateCarouselToTop))]),
+    trigger('rotateCarouselToBottom',  [ transition('turnos-especialista => perfil-especialista', useAnimation(rotateCarouselToBottom))]),
+    trigger('rotateCubeToTop',  [ transition('perfil-paciente => turnos-paciente', useAnimation(rotateCubeToTop))]),
+    trigger('rotateCubeToBottom',  [ transition('turnos-paciente => perfil-paciente', useAnimation(rotateCubeToBottom))]),
     ]
 })
 

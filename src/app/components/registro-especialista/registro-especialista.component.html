@@ -81,9 +81,20 @@
               <input type="file" class="form-control" (change)="onSelectFile($event)" formControlName="imagen">
               <span *ngIf="form.get('imagen').hasError('required') && form.get('imagen').touched" class="text-danger error-labe">* Ingrese una foto</span>
             </div>
-            <div class="col-10  mb-3">
-              <!--<re-captcha (resolved)="resolved()" siteKey="6LfFDh0pAAAAAGAjCwuBHLYDCW4VHZ_vViTkj1wc"></re-captcha>-->
-              <re-captcha (resolved)="resolved()" siteKey="6LfdPiIpAAAAAFzq2xdagAdjIdPOCngRzhS-OtPf"></re-captcha>
+            <div class="row">
+              <div class="col-6 mb-3 d-flex justify-content-center align-items-center">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" (click)="deshabilitarCaptcha()" [checked]="habilitarCaptcha">
+                    <label class="form-check-label" for="flexCheckChecked">
+                      Habilitar Captcha
+                    </label>
+                  </div>
+              </div>
+              <div class="col-6  mb-3">
+                <!-- <re-captcha siteKey="6LfFDh0pAAAAAGAjCwuBHLYDCW4VHZ_vViTkj1wc" appCaptcha (captchaEvent)="captchaResuelto2($event)" id="captchaContainer" *ngIf="habilitarCaptcha"></re-captcha>-->
+                <re-captcha siteKey="6LfdPiIpAAAAAFzq2xdagAdjIdPOCngRzhS-OtPf" appCaptcha (captchaEvent)="captchaResuelto2($event)" id="captchaContainer" *ngIf="habilitarCaptcha"></re-captcha>
+                <!--<re-captcha (resolved)="resolved()" siteKey="6LfdPiIpAAAAAFzq2xdagAdjIdPOCngRzhS-OtPf" appCaptcha></re-captcha>-->
+              </div>
             </div>
             <div class="row justify-content-center  mt-3" *ngIf="captchaError">
               <div class="col-3 alert alert-danger d-flex align-items-center" role="alert">

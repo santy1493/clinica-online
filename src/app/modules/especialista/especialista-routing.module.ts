@@ -9,6 +9,7 @@ import { TurnosEspecialistaComponent } from 'src/app/components/turnos-especiali
 const routes: Routes = [
   { 
     path: 'mi-perfil',
+    data: {state:  'perfil-especialista'},
     component: MiPerfilComponent
   },
   { 
@@ -21,6 +22,7 @@ const routes: Routes = [
   },
   {
     path: 'mis-turnos',
+    data: {state:  'turnos-especialista'},
     component: TurnosEspecialistaComponent
   },
   {

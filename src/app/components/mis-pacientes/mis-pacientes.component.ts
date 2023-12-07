@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HistoriaClinica } from 'src/app/models/historia-clinica';
 import { PacienteHistoria } from 'src/app/models/paciente-historia';
+import { TurnoCompleto } from 'src/app/models/turno-completo';
 import { Usuario } from 'src/app/models/usuario';
 import { UsuarioLocal } from 'src/app/models/usuario-local';
 import { FirestoreService } from 'src/app/services/firestore.service';
@@ -19,8 +20,13 @@ export class MisPacientesComponent implements OnInit{
   localUsr: UsuarioLocal;
   historias: HistoriaClinica[];
 
+  especialista: Usuario;
+
   pacientes: Usuario[];
   pacientesHistorias: PacienteHistoria[];
+  pacientesTurnos: any[];
+
+  turnosCompletos: TurnoCompleto[];
 
   constructor(
     private firestore: FirestoreService,
@@ -33,7 +39,81 @@ export class MisPacientesComponent implements OnInit{
 
     this.localUsr = this.local.obtenerUsuario();
 
-    this.firestore.obtenerHistoriasClinicas().subscribe(his => {
+    this.firestore.obtenerEspecialistas().subscribe(esp => {
+
+      this.especialista = esp.filter(e => e.email === this.localUsr.email)[0];
+
+      this.firestore.obtenerTurnosPorEspecialista(this.localUsr.email).subscribe(tur => {
+
+        this.firestore.obtenerHistoriasClinicas().subscribe(his => {
+  
+          this.firestore.obtenerPacientes().subscribe(pac => {
+
+            const misPacientes = [];
+
+            tur.forEach(t => {
+              if(!misPacientes.includes(t.paciente)) {
+                misPacientes.push(t.paciente);
+              }
+            });
+  
+            this.turnosCompletos = [];
+  
+            tur.forEach(t => {
+  
+              const paciente = pac.filter(p => p.email === t.paciente);
+              const historia = his.filter(h => h.turno === t.id);
+  
+              const turnoCompleto: TurnoCompleto = {
+                id: t.id,
+                paciente: paciente ? paciente[0] : null,
+                especialista: this.especialista,
+                especialidad: t.especialidad,
+                fecha: t.fecha,
+                horaInicio: t.horaInicio,
+                horaFin: t.horaFin,
+                estado: t.estado,
+                cancelado: t.cancelado,
+                rechazado: t.rechazado,
+                finalizado: t.finalizado,
+                historia: historia ? historia[0] : null
+              }
+
+              this.turnosCompletos.push(turnoCompleto);
+  
+            })
+
+            console.log(this.turnosCompletos);
+
+            this.pacientesTurnos = [];
+            
+            misPacientes.forEach(p => {
+
+              const pacAux = pac.filter(x => x.email === p);
+              const turAux = this.turnosCompletos.filter(x => x.paciente.email === p && x.especialista.email === this.localUsr.email);
+      
+              const pacienteTurno: any = {
+                paciente: pacAux[0],
+                turnos: turAux
+              }
+      
+              this.pacientesTurnos.push(pacienteTurno);
+              
+            })
+
+            //console.log(this.pacientesTurnos);
+
+            this.loading = false;
+  
+          })
+  
+        })
+  
+      })
+
+    })
+
+    /*this.firestore.obtenerHistoriasClinicas().subscribe(his => {
       this.historias = his;
 
       this.firestore.obtenerPacientes().subscribe(pac => {
@@ -54,7 +134,7 @@ export class MisPacientesComponent implements OnInit{
       misPacientes.forEach(p => {
 
         const pacAux = this.pacientes.filter(x => x.email === p);
-        const hisAux = this.historias.filter(x => x.paciente === p);
+        const hisAux = this.historias.filter(x => x.paciente === p && x.especialista === this.localUsr.email);
 
         const pacienteHistoria: PacienteHistoria = {
           paciente: pacAux[0],
@@ -69,7 +149,7 @@ export class MisPacientesComponent implements OnInit{
 
       })
 
-    })
+    })*/
   }
 
 

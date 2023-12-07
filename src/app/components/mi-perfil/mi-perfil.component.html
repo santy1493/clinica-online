@@ -10,6 +10,7 @@
   </div>   
   <div class="col-2">
     <button  *ngIf="usuario && usuario.rol === 'especialista'" class="btn btn-success"  (click)="irANuevoHorario()"><span style="font-weight: 900; font-size: 22px;">+</span> Nuevo Horario</button>
+    <button  *ngIf="usuario && usuario.rol === 'paciente'" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalImprimirConsultas">Imprimir Consultas</button>
   </div>   
 </div>
 
@@ -141,5 +142,29 @@
       </ng-container>
       </div>
   </div>
+
+
+  <div class="modal fade" id="modalImprimirConsultas" data-bs-backdrop="false" data-bs-keyboard="false" tabindex="10" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title" id="exampleModalLabel">Elija una especialidad</h2>
+          </div>
+          <div class="modal-body">
+              <div class="container-fluid">
+                <div class="row justify-content-center" *ngFor="let item of especialidadesAtendidas">
+                  <div class="col-3 my-2">
+                    <button class="btn btn-primary" (click)="imprimirConsultas(item)" data-bs-dismiss="modal">{{ item }}</button>
+                  </div>
+                </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+  </div>
+
 
   <app-loading *ngIf="loading"></app-loading>

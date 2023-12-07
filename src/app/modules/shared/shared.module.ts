@@ -5,6 +5,9 @@ import { MiPerfilComponent } from 'src/app/components/mi-perfil/mi-perfil.compon
 import { MdbCarouselModule } from 'mdb-angular-ui-kit/carousel';
 import { LoadingComponent } from 'src/app/components/loading/loading.component';
 import { FormatearFechaPipe } from 'src/app/pipes/formatear-fecha.pipe';
+import { ResaltarDirective } from 'src/app/directives/resaltar.directive';
+import { CaptchaDirective } from 'src/app/directives/captcha.directive';
+import { UltimasHistoriasPipe } from 'src/app/pipes/ultimas-historias.pipe';
 
 
 
@@ -14,7 +17,10 @@ import { FormatearFechaPipe } from 'src/app/pipes/formatear-fecha.pipe';
     FiltroTurnosPipe,
     MiPerfilComponent,
     LoadingComponent,
-    FormatearFechaPipe
+    FormatearFechaPipe,
+    ResaltarDirective,
+    CaptchaDirective,
+    UltimasHistoriasPipe
   ],
   imports: [
     CommonModule,
@@ -24,7 +30,10 @@ import { FormatearFechaPipe } from 'src/app/pipes/formatear-fecha.pipe';
     FiltroTurnosPipe,
     MiPerfilComponent,
     LoadingComponent,
-    FormatearFechaPipe
+    FormatearFechaPipe,
+    ResaltarDirective,
+    CaptchaDirective,
+    UltimasHistoriasPipe
   ]
 })
 export class SharedModule { }

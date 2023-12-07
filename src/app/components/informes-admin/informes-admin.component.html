@@ -54,11 +54,11 @@
                         <td>{{ i + 1}}</td>
                         <td>{{ log.usuario }}</td>
                         <td>{{ log.fechaHora | formatearFecha }}</td>
-                        <td>{{ log.fechaHora | formatearFecha }}</td>
+                        <td>{{ formatearHora(log.fechaHora) }}</td>
                       </tr>
                     </tbody>
                   </table>
-                  <div class="row justify-content-center mt-5">
+                  <div class="row justify-content-center mt-4 mb-3">
                     <div class="col-5"></div>
                     <div class="col-3">
                         <button class="btn btn-primary" (click)="generateLogsPdf()">Imprimir PDF</button>
@@ -71,77 +71,110 @@
             <div class="row justify-content-center" *ngIf="informeElegido === 'turnosPorEspecialidad'">
                 <div class="col-2"></div>
                 <div class="col-8">
-                    <ngx-charts-pie-chart
-                    [view]="view"
-                    scheme="picnic"
-                    [results]="turnosPorEspecialidad"
-                    [gradient]="gradient"
-                    [labels]="showLabels"
-                    [doughnut]="isDoughnut"
-                    (select)="onSelect($event)"
-                    (activate)="onActivate($event)"
-                    (deactivate)="onDeactivate($event)"
-                    >
-                    </ngx-charts-pie-chart>
+                    <div id="turnosPorEspecialidad">
+                        <ngx-charts-pie-chart
+                        [view]="view"
+                        scheme="picnic"
+                        [results]="turnosPorEspecialidad"
+                        [gradient]="gradient"
+                        [labels]="showLabels"
+                        [doughnut]="isDoughnut"
+                        >
+                        </ngx-charts-pie-chart>
+                    </div>
                 </div>
                 <div class="col-2"></div>
+                <div class="row justify-content-center mt-4 mb-3">
+                    <div class="col-5"></div>
+                    <div class="col-3">
+                        <button class="btn btn-primary" (click)="generatePdfChart('turnosPorEspecialidad')">Imprimir PDF</button>
+                    </div>
+                    <div class="col-4"></div>
+                  </div>
             </div>
 
             <div class="row justify-content-center" *ngIf="informeElegido === 'turnosPorDia'">
                 <div class="col-2"></div>
                 <div class="col-8">
-                    <ngx-charts-pie-chart
-                    [view]="view"
-                    scheme="picnic"
-                    [results]="turnosPorDia"
-                    [gradient]="gradient"
-                    [labels]="showLabels"
-                    [doughnut]="isDoughnut"
-                    (select)="onSelect($event)"
-                    (activate)="onActivate($event)"
-                    (deactivate)="onDeactivate($event)"
-                    >
-                    </ngx-charts-pie-chart>
+                    <div id="turnosPorDia">
+                        <ngx-charts-pie-chart
+                        [view]="view"
+                        scheme="picnic"
+                        [results]="turnosPorDia"
+                        [gradient]="gradient"
+                        [labels]="showLabels"
+                        [doughnut]="isDoughnut"
+                        (select)="onSelect($event)"
+                        (activate)="onActivate($event)"
+                        (deactivate)="onDeactivate($event)"
+                        >
+                        </ngx-charts-pie-chart>
+                    </div>
                 </div>
                 <div class="col-2"></div>
+                <div class="row justify-content-center mt-4 mb-3">
+                    <div class="col-5"></div>
+                    <div class="col-3">
+                        <button class="btn btn-primary" (click)="generatePdfChart('turnosPorDia')">Imprimir PDF</button>
+                    </div>
+                    <div class="col-4"></div>
+                  </div>
             </div>
 
             <div class="row justify-content-center" *ngIf="informeElegido === 'turnosSolicitadosPorEspecialista'">
                 <div class="col-2"></div>
                 <div class="col-8">
-                    <ngx-charts-pie-chart
-                    [view]="view"
-                    scheme="picnic"
-                    [results]="turnosSolicitados"
-                    [gradient]="gradient"
-                    [labels]="showLabels"
-                    [doughnut]="isDoughnut"
-                    (select)="onSelect($event)"
-                    (activate)="onActivate($event)"
-                    (deactivate)="onDeactivate($event)"
-                    >
-                    </ngx-charts-pie-chart>
+                    <div id="turnosSolicitadosPorEspecialista">
+                        <ngx-charts-pie-chart
+                        [view]="view"
+                        scheme="picnic"
+                        [results]="turnosSolicitados"
+                        [gradient]="gradient"
+                        [labels]="showLabels"
+                        [doughnut]="isDoughnut"
+                        (select)="onSelect($event)"
+                        (activate)="onActivate($event)"
+                        (deactivate)="onDeactivate($event)"
+                        >
+                        </ngx-charts-pie-chart>
+                    </div>
                 </div>
                 <div class="col-2"></div>
+                <div class="row justify-content-center mt-4 mb-3">
+                    <div class="col-5"></div>
+                    <div class="col-3">
+                        <button class="btn btn-primary" (click)="generatePdfChart('turnosSolicitadosPorEspecialista')">Imprimir PDF</button>
+                    </div>
+                    <div class="col-4"></div>
+                  </div>
             </div>
 
             <div class="row justify-content-center" *ngIf="informeElegido === 'turnosFinalizadosPorEspecialista'">
                 <div class="col-2"></div>
                 <div class="col-8">
-                    <ngx-charts-pie-chart
-                    [view]="view"
-                    scheme="picnic"
-                    [results]="turnosFinalizados"
-                    [gradient]="gradient"
-                    [labels]="showLabels"
-                    [doughnut]="isDoughnut"
-                    (select)="onSelect($event)"
-                    (activate)="onActivate($event)"
-                    (deactivate)="onDeactivate($event)"
-                    >
-                    </ngx-charts-pie-chart>
+                    <div id="turnosFinalizadosPorEspecialista">
+                        <ngx-charts-pie-chart
+                        [view]="view"
+                        scheme="picnic"
+                        [results]="turnosFinalizados"
+                        [gradient]="gradient"
+                        [labels]="showLabels"
+                        [doughnut]="isDoughnut"
+                        (select)="onSelect($event)"
+                        (activate)="onActivate($event)"
+                        (deactivate)="onDeactivate($event)"
+                        >
+                        </ngx-charts-pie-chart>
+                    </div>
                 </div>
                 <div class="col-2"></div>
+                <div class="row justify-content-center mt-4 mb-3">
+                    <div class="col-5"></div>
+                    <div class="col-3">
+                        <button class="btn btn-primary" (click)="generatePdfChart('turnosFinalizadosPorEspecialista')">Imprimir PDF</button>
+                    </div>
+                    <div class="col-4"></div>
+                  </div>
             </div>
             
         </div>

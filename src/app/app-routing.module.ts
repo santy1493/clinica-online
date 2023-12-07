@@ -15,6 +15,7 @@ import { SinRolesComponent } from './components/sin-roles/sin-roles.component';
 import { RegistroModule } from './modules/registro/registro.module';
 import { UsuarioModule } from './modules/usuario/usuario.module';
 import { YaLoagueadoGuard } from './guards/ya-loagueado.guard';
+import { CaptchaComponent } from './components/captcha/captcha.component';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 const redirectLoggedInToHome = () => redirectLoggedInTo(['home']);

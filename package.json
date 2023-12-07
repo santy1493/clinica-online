@@ -27,6 +27,7 @@
     "exceljs": "^4.4.0",
     "file-saver": "^2.0.5",
     "firebase-tools": "^12.8.1",
+    "html2canvas": "^1.4.1",
     "mdb-angular-ui-kit": "^5.1.0",
     "ng-recaptcha": "^12.0.2",
     "ngx-router-animations": "^13.0.0",

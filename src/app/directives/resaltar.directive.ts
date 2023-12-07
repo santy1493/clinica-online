@@ -8,11 +8,13 @@ export class ResaltarDirective {
   constructor(private el: ElementRef) { }
 
   @HostListener('mouseenter') onMouseEnter() {
-    this.el.nativeElement.style.scale(1.05)
+    //this.el.nativeElement.style.backgroundColor = '#C6C2C1';
+    this.el.nativeElement.classList.add('table-active');
   }
 
   @HostListener('mouseleave') onMouseLeave() {
-    this.el.nativeElement.style.scale(1)
+    //this.el.nativeElement.style.backgroundColor = '#FFFFFF';
+    this.el.nativeElement.classList.remove('table-active');
   }
 
 }

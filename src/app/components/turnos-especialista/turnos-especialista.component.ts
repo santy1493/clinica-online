@@ -221,7 +221,7 @@ export class TurnosEspecialistaComponent {
       paciente: this.turnoAFinalizar.paciente,
       especialista: this.turnoAFinalizar.especialista,
       especialidad: this.turnoAFinalizar.especialidad,
-      fecha: fecha.toString(),
+      fecha: this.turnoAFinalizar.fecha,
       altura: parseInt(altura),
       peso: parseInt(peso),
       temperatura: parseInt(temperatura),

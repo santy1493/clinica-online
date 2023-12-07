@@ -1,4 +1,4 @@
-<div class="container col-lg-8 mt-4">
+<!--<div class="container col-lg-8 mt-4">
     <div class="card">
       <h1 class="text-center mt-3">Mis Pacientes</h1>
       <div class="accordion accordion-flush" id="accordionFlushExample">
@@ -37,7 +37,60 @@
         </div>
       </div>
     </div>
+  </div>-->
+
+
+  <div class="container col-lg-12 mt-4">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-4 card mx-3 my-2 p-2" *ngFor="let item of pacientesTurnos">
+        <div class="row">
+          <div class="col-10 mb-2">
+            <h3>{{ item.paciente.apellido + ' ' + item.paciente.nombre }}</h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-5">
+            <img [src]="item.paciente.imagenes ? item.paciente.imagenes[0] : ''" class="img-thumbnail" alt="..." width="150px" height="150px">
+          </div>
+          <div class="col-7">
+            <span>DNI: {{ item.paciente.dni}}</span><br>
+            <span>Edad: {{ item.paciente.edad}}</span><br>
+            <span>Email: {{ item.paciente.email}}</span><br>
+            <span>Obra Social: {{ item.paciente.obraSocial}}</span><br>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-12">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Especialidad</th>
+                  <th scope="col">Fecha</th>
+                  <th scope="col">Hora</th>
+                  <th scope="col">Estado</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let turno of item.turnos | ultimasTurnos, index as i">
+                  <td>{{ i + 1}}</td>
+                  <td>{{ turno.especialidad }}</td>
+                  <td>{{ formatearFecha(turno.fecha) }}</td>
+                  <td>{{ formatearHora(turno.fecha) }}</td>
+                  <td>{{ turno.estado }}</td>
+                  <td>
+                    <button *ngIf="turno.historia" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDetalle" (click)="openModalDetalle(turno.historia)">Ver</button>
+                </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+
   
   
   <div class="modal fade" id="modalDetalle" data-bs-backdrop="false" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

@@ -9,6 +9,10 @@ import { SharedModule } from '../shared/shared.module';
 import { TurnosAdminComponent } from 'src/app/components/turnos-admin/turnos-admin.component';
 import { MiPerfilComponent } from 'src/app/components/mi-perfil/mi-perfil.component';
 import { InformesAdminComponent } from 'src/app/components/informes-admin/informes-admin.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import {MatNativeDateModule} from '@angular/material/core';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 
 @NgModule({
@@ -23,7 +27,11 @@ import { InformesAdminComponent } from 'src/app/components/informes-admin/inform
     AdminRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    NgxChartsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule
   ]
 })
 export class AdminModule { }

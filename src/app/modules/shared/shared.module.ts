@@ -4,6 +4,7 @@ import { FiltroTurnosPipe } from 'src/app/pipes/filtro-turnos.pipe';
 import { MiPerfilComponent } from 'src/app/components/mi-perfil/mi-perfil.component';
 import { MdbCarouselModule } from 'mdb-angular-ui-kit/carousel';
 import { LoadingComponent } from 'src/app/components/loading/loading.component';
+import { FormatearFechaPipe } from 'src/app/pipes/formatear-fecha.pipe';
 
 
 
@@ -12,7 +13,8 @@ import { LoadingComponent } from 'src/app/components/loading/loading.component';
   declarations: [
     FiltroTurnosPipe,
     MiPerfilComponent,
-    LoadingComponent
+    LoadingComponent,
+    FormatearFechaPipe
   ],
   imports: [
     CommonModule,
@@ -21,7 +23,8 @@ import { LoadingComponent } from 'src/app/components/loading/loading.component';
   exports:[
     FiltroTurnosPipe,
     MiPerfilComponent,
-    LoadingComponent
+    LoadingComponent,
+    FormatearFechaPipe
   ]
 })
 export class SharedModule { }

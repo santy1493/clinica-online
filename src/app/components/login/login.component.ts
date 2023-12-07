@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Log } from 'src/app/models/log';
 import { Usuario } from 'src/app/models/usuario';
 import { AuthService } from 'src/app/services/auth.service';
 import { FirebaseErrorService } from 'src/app/services/firebase-error.service';
@@ -60,6 +61,15 @@ export class LoginComponent {
   
             if(usuario.activo) {
               this.local.guardarUsuario(usuario);
+
+              let fechaHora = new Date();
+
+              let log: Log = {
+                usuario: usuario.email,
+                fechaHora: fechaHora.toString()
+              }
+
+              this.firestore.agregarLog(log);
 
               if(usuario.rol === 'admin') {
                 this.router.navigate(['/usuario/admin/mi-perfil']);

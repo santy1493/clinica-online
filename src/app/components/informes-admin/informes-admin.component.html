@@ -1,1 +1,152 @@
-<p>informes-admin works!</p>
+
+<!-- [scheme]="colorScheme" -->
+
+
+<div class="container col-lg-8 mt-4">
+
+    <div class="card mt-4">
+        <h1 class="text-center mt-4">Informes</h1>
+        <div class="row">
+            <div class="col-4 mx-4">
+                <label>Elegir informe:</label>
+                <select class="form-select" #informeSelect (click)="elegirInforme(informeSelect.value)">
+                    <option selected [value]="'logs'">Logs</option>
+                    <option [value]="'turnosPorEspecialidad'">Turnos Por Especialidad</option>
+                    <option [value]="'turnosPorDia'">Turnos Por Dia</option>
+                    <option [value]="'turnosSolicitadosPorEspecialista'">Cantidad de turnos solicitado por médico en un lapso de tiempo</option>
+                    <option [value]="'turnosFinalizadosPorEspecialista'">Cantidad de turnos finalizados por médico en un lapso de tiempo</option>
+                </select>
+            </div>
+            <div class="col-2"></div>
+            <div class="col-4">
+                <mat-form-field>
+                    <mat-label>Ingrese rango de fechas</mat-label>
+                    <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                      <input matStartDate formControlName="start" placeholder="Start date">
+                      <input matEndDate formControlName="end" placeholder="End date">
+                    </mat-date-range-input>
+                    <mat-hint>MM/DD/AAAA – MM/DD/AAAA</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+                  
+              
+                      <mat-error *ngIf="range.get('start').hasError('matStartDateInvalid')">Fecha inicio invalida</mat-error>
+                      <mat-error *ngIf="range.get('end').hasError('matEndDateInvalid')">Fecha fin invalida</mat-error>
+                    
+                  </mat-form-field>
+                  <button class="btn btn-primary" (click)="actualizarHora()">Actualizar</button>
+            </div>
+        </div>
+        <div class="row justify-content-center mt-3">
+
+            <div class="col-10 mt-3 p-4 justify-content-center" *ngIf="informeElegido === 'logs'">
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Usuario</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Hora</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let log of logs, index as i">
+                        <td>{{ i + 1}}</td>
+                        <td>{{ log.usuario }}</td>
+                        <td>{{ log.fechaHora | formatearFecha }}</td>
+                        <td>{{ log.fechaHora | formatearFecha }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="row justify-content-center mt-5">
+                    <div class="col-5"></div>
+                    <div class="col-3">
+                        <button class="btn btn-primary" (click)="generateLogsPdf()">Imprimir PDF</button>
+                    </div>
+                    <div class="col-4"></div>
+                  </div>
+            
+            </div>
+
+            <div class="row justify-content-center" *ngIf="informeElegido === 'turnosPorEspecialidad'">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <ngx-charts-pie-chart
+                    [view]="view"
+                    scheme="picnic"
+                    [results]="turnosPorEspecialidad"
+                    [gradient]="gradient"
+                    [labels]="showLabels"
+                    [doughnut]="isDoughnut"
+                    (select)="onSelect($event)"
+                    (activate)="onActivate($event)"
+                    (deactivate)="onDeactivate($event)"
+                    >
+                    </ngx-charts-pie-chart>
+                </div>
+                <div class="col-2"></div>
+            </div>
+
+            <div class="row justify-content-center" *ngIf="informeElegido === 'turnosPorDia'">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <ngx-charts-pie-chart
+                    [view]="view"
+                    scheme="picnic"
+                    [results]="turnosPorDia"
+                    [gradient]="gradient"
+                    [labels]="showLabels"
+                    [doughnut]="isDoughnut"
+                    (select)="onSelect($event)"
+                    (activate)="onActivate($event)"
+                    (deactivate)="onDeactivate($event)"
+                    >
+                    </ngx-charts-pie-chart>
+                </div>
+                <div class="col-2"></div>
+            </div>
+
+            <div class="row justify-content-center" *ngIf="informeElegido === 'turnosSolicitadosPorEspecialista'">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <ngx-charts-pie-chart
+                    [view]="view"
+                    scheme="picnic"
+                    [results]="turnosSolicitados"
+                    [gradient]="gradient"
+                    [labels]="showLabels"
+                    [doughnut]="isDoughnut"
+                    (select)="onSelect($event)"
+                    (activate)="onActivate($event)"
+                    (deactivate)="onDeactivate($event)"
+                    >
+                    </ngx-charts-pie-chart>
+                </div>
+                <div class="col-2"></div>
+            </div>
+
+            <div class="row justify-content-center" *ngIf="informeElegido === 'turnosFinalizadosPorEspecialista'">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <ngx-charts-pie-chart
+                    [view]="view"
+                    scheme="picnic"
+                    [results]="turnosFinalizados"
+                    [gradient]="gradient"
+                    [labels]="showLabels"
+                    [doughnut]="isDoughnut"
+                    (select)="onSelect($event)"
+                    (activate)="onActivate($event)"
+                    (deactivate)="onDeactivate($event)"
+                    >
+                    </ngx-charts-pie-chart>
+                </div>
+                <div class="col-2"></div>
+            </div>
+            
+        </div>
+    </div>
+
+
+    
+  </div>

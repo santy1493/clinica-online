@@ -7,6 +7,7 @@ import { Horario } from '../models/horario';
 import { Turno } from '../models/turno';
 import { Especialidad } from '../models/especialidad';
 import { HistoriaClinica } from '../models/historia-clinica';
+import { Log } from '../models/log';
 
 
 @Injectable({
@@ -203,6 +204,22 @@ export class FirestoreService {
     const historiaRef = collection(this.firestore, 'historias-clinicas');
     return collectionData(historiaRef, { idField: 'id'}) as Observable<HistoriaClinica[]>;
   }
+
+
+  /***************************** LOGS *****************************/
+
+  agregarLog(log: Log) {
+    const logRef = collection(this.firestore, 'logs');
+    return addDoc(logRef, log).catch(err => {
+      console.log(err);
+    });
+  }
+
+  obtenerLogs(): Observable<Log[]> {
+    const logRef = collection(this.firestore, 'logs');
+    return collectionData(logRef, { idField: 'id'}) as Observable<Log[]>;
+  }
+
 
 
   /*agregarLog(log: Log) {

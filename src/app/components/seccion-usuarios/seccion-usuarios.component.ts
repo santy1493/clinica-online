@@ -24,6 +24,7 @@ export class SeccionUsuariosComponent implements OnInit{
   loading: boolean = false;
 
   mostrarPacientes = true;
+  mostrarTarjeta = true;
 
   pacientes: Usuario[];
   especialistas: Usuario[];

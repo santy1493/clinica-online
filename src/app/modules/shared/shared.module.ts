@@ -8,6 +8,7 @@ import { FormatearFechaPipe } from 'src/app/pipes/formatear-fecha.pipe';
 import { ResaltarDirective } from 'src/app/directives/resaltar.directive';
 import { CaptchaDirective } from 'src/app/directives/captcha.directive';
 import { UltimasHistoriasPipe } from 'src/app/pipes/ultimas-historias.pipe';
+import { FocusDirective } from 'src/app/directives/focus.directive';
 
 
 
@@ -20,7 +21,8 @@ import { UltimasHistoriasPipe } from 'src/app/pipes/ultimas-historias.pipe';
     FormatearFechaPipe,
     ResaltarDirective,
     CaptchaDirective,
-    UltimasHistoriasPipe
+    UltimasHistoriasPipe,
+    FocusDirective
   ],
   imports: [
     CommonModule,
@@ -33,7 +35,8 @@ import { UltimasHistoriasPipe } from 'src/app/pipes/ultimas-historias.pipe';
     FormatearFechaPipe,
     ResaltarDirective,
     CaptchaDirective,
-    UltimasHistoriasPipe
+    UltimasHistoriasPipe,
+    FocusDirective
   ]
 })
 export class SharedModule { }

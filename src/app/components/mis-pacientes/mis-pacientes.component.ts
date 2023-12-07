@@ -27,6 +27,7 @@ export class MisPacientesComponent implements OnInit{
   pacientesTurnos: any[];
 
   turnosCompletos: TurnoCompleto[];
+  mostrarTarjeta: boolean = true;
 
   constructor(
     private firestore: FirestoreService,

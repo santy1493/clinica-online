@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Encuesta } from 'src/app/models/encuesta';
 import { HistoriaClinica } from 'src/app/models/historia-clinica';
 import { Turno } from 'src/app/models/turno';
 import { TurnoCompleto } from 'src/app/models/turno-completo';
@@ -15,6 +17,8 @@ import { LocalService } from 'src/app/services/local.service';
 export class SeccionPacienteComponent implements OnInit{
   
   loading: boolean = false;
+  formEncuesta: FormGroup;
+  encuestasRealizadas: string[] = [];
 
   palabraFiltro: string = '';
   usrLocal: UsuarioLocal;
@@ -30,10 +34,12 @@ export class SeccionPacienteComponent implements OnInit{
   comentarioCancelado: string = '';
 
   turnoDetalle: TurnoCompleto = null;
+  turnoEncuesta: TurnoCompleto = null;
 
   constructor(
     private firestore: FirestoreService,
-    private local: LocalService
+    private local: LocalService,
+    private formBuilder: FormBuilder
   ) {}
   
   ngOnInit(): void {
@@ -87,6 +93,20 @@ export class SeccionPacienteComponent implements OnInit{
         });
       });
     });
+
+    this.firestore.obtenerEncuestas().subscribe(enc => {
+      this.encuestasRealizadas = [];
+
+      enc.forEach(e => this.encuestasRealizadas.push(e.turno));
+    });
+
+
+    this.formEncuesta = this.formBuilder.group({
+      respuesta1: ['', [Validators.required]],
+      respuesta2: ['', [Validators.required]],
+      respuesta3: ['', [Validators.required]],
+    })
+
   }
 
 
@@ -152,6 +172,41 @@ export class SeccionPacienteComponent implements OnInit{
 
   closeModalDetalle() {
     this.turnoDetalle = null;
+  }
+
+
+
+  finalizarEncuesta() {
+
+    const { respuesta1, respuesta2, respuesta3  } = this.formEncuesta.getRawValue();
+
+    let fecha = new Date();
+
+    let encuesta: Encuesta = {
+      turno: this.turnoEncuesta.id,
+      paciente: this.turnoEncuesta.paciente.email,
+      especialista: this.turnoEncuesta.especialista.email,
+      especialidad: this.turnoEncuesta.especialidad,
+      fecha: this.turnoEncuesta.fecha,
+      respuesta1: respuesta1.toString(),
+      respuesta2: respuesta1.toString(),
+      respuesta3: respuesta1.toString(),
+
+    }
+
+    this.firestore.agregarEncuesta(encuesta).then(() => {
+      this.turnoEncuesta = null;
+      this.formEncuesta.reset();
+    })
+
+  }
+
+  openModalEncuesta(turno: TurnoCompleto) {
+    this.turnoEncuesta = turno;
+  }
+
+  closeModalEncuesta() {
+    this.turnoEncuesta = null;
   }
 
 

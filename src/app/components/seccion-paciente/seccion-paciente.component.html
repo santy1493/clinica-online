@@ -2,9 +2,9 @@
     <div class="col-1">
     </div>   
     <div class="col-4">
-        <div class="card">
+        <div class="card p-3">
           <label>Filtro: </label>
-          <input type="text" placeholder="Ingrese su contraseña" class="form-control" [(ngModel)]="palabraFiltro" (change)="filtrarTurnos()">
+          <input type="text" class="mt-2" placeholder="Ingrese su contraseña" class="form-control" [(ngModel)]="palabraFiltro" (change)="filtrarTurnos()" appFocus>
         </div>
     </div>   
     <div class="col-5">
@@ -32,6 +32,7 @@
                   <th scope="col">Estado</th>
                   <th scope="col"></th>
                   <th scope="col"></th>
+                  <th scope="col"></th>
                 </tr>
               </thead>
               <tbody>
@@ -47,6 +48,9 @@
                 </td>
                   <td>
                     <button class="btn btn-primary" *ngIf="turno.estado === 'cancelado' || turno.estado === 'rechazado' || turno.estado === 'finalizado'" data-bs-toggle="modal" data-bs-target="#modalDetalle" (click)="openModalDetalle(turno)">Ver Detalle</button>
+                </td>
+                  <td>
+                    <button class="btn btn-primary" *ngIf="turno.estado === 'finalizado' && !encuestasRealizadas.includes(turno.id)" data-bs-toggle="modal" data-bs-target="#modalEncuesta" (click)="openModalEncuesta(turno)">Encuesta</button>
                 </td>
                 </tr>
               </tbody>
@@ -136,6 +140,44 @@
           </div>
         </div>
       </ng-container>
+      </div>
+  </div>
+
+
+  <div class="modal fade" id="modalEncuesta" data-bs-backdrop="false" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title" id="exampleModalLabel">Finalizar Turno</h2>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="formEncuesta" (ngSubmit)="finalizarEncuesta()">
+              <div class="container-fluid">
+                <div class="row justify-content-center">
+                  <div class="col-12 mb-3">
+                    <label for="message-text" class="col-form-label">Comentario</label>
+                    <textarea  formControlName="respuesta1" class="form-control" id="message-text"></textarea>
+                    <span *ngIf="formEncuesta.get('respuesta1').hasError('required') && formEncuesta.get('respuesta1').touched" class="text-danger error-labe">* Campo requerido</span>
+                  </div>
+                  <div class="col-12 mb-3">
+                    <label>Duracion de la consulta (min):</label>
+                    <input type="number" placeholder="Ingrese altura" class="form-control" formControlName="respuesta2">
+                    <span *ngIf="formEncuesta.get('respuesta2').hasError('required') && formEncuesta.get('respuesta2').touched" class="text-danger error-labe">* Campo requerido</span>
+                  </div>
+                  <div class="col-12 mb-3">
+                    <label>Calificacion:</label>
+                    <input type="number" placeholder="Ingrese peso" class="form-control" formControlName="respuesta3" min="0" max="5">
+                    <span *ngIf="formEncuesta.get('respuesta3').hasError('required') && formEncuesta.get('respuesta3').touched" class="text-danger error-labe">* Campo requerido</span>
+                  </div>                 
+                </div>
+              </div>
+           </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeModalEncuesta()">Cerrar</button>
+            <button type="button" class="btn btn-primary" [disabled]="!formEncuesta.valid" data-bs-dismiss="modal" (click)="finalizarEncuesta()">Aceptar</button>
+          </div>
+        </div>
       </div>
   </div>
 

@@ -79,7 +79,8 @@ export class SpeedDialFabComponent implements OnInit {
 
   ngOnInit(): void {
     this.firestore.obtenerTodosUsuarios().subscribe(res => {
-      this.fabButtons = res;
+      this.fabButtons = res.filter(x => x.email === 'lakid16456@bustayes.com' || x.email === 'yivixow733@frandin.com' || x.email === 'jegila2719@frandin.com' || x.email === 'katafe5431@cumzle.com'
+      || x.email === 'gahayon592@frandin.com' || x.email === 'yalore5826@frandin.com');
     })
   }
 

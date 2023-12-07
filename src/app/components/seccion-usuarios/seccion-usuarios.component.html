@@ -12,6 +12,18 @@
     <button class="btn btn-success" (click)="descargarExcel()">Exportar a Excel</button>
   </div>   
 </div>
+<div class="row mt-1">
+  <div class="col-1"></div>
+  <div class="col-4" *ngIf="mostrarPacientes">
+    <button class="btn btn-primary mx-2" (click)="mostrarTarjeta = !mostrarTarjeta" [disabled]="mostrarTarjeta">Tarjeta</button>
+    <button class="btn btn-primary mx-2" (click)="mostrarTarjeta = !mostrarTarjeta" [disabled]="!mostrarTarjeta">Lista</button>
+  </div>   
+  <div class="col-5">
+      
+  </div>   
+  <div class="col-2">
+  </div>   
+</div>
 
 
 <!--<div class="container col-lg-8 mt-4">
@@ -59,7 +71,7 @@
 
 
 
-<div class="container col-lg-8 mt-4" *ngIf="mostrarPacientes">
+<div class="container col-lg-8 mt-4" *ngIf="mostrarPacientes && mostrarTarjeta">
   <div class="row justify-content-center">
     <div class="col-md-6 col-lg-4 card m-4 p-3" *ngFor="let item of pacientesHistorias">
       <div class="row">
@@ -89,7 +101,7 @@
 
 
 
-<!--<div class="container col-lg-8 mt-4" *ngIf="mostrarPacientes">
+<div class="container col-lg-8 mt-4" *ngIf="mostrarPacientes && !mostrarTarjeta">
   <div class="card">
     <h1 class="text-center mt-3">Lista de Pacientes</h1>
     <div class="accordion accordion-flush" id="accordionFlushExample">
@@ -139,7 +151,7 @@
       </div>
     </div>
   </div>
-</div> -->
+</div>
 
 <div class="container col-lg-8 mt-4" *ngIf="!mostrarPacientes">
   <div class="card">

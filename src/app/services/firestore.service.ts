@@ -8,6 +8,7 @@ import { Turno } from '../models/turno';
 import { Especialidad } from '../models/especialidad';
 import { HistoriaClinica } from '../models/historia-clinica';
 import { Log } from '../models/log';
+import { Encuesta } from '../models/encuesta';
 
 
 @Injectable({
@@ -218,6 +219,22 @@ export class FirestoreService {
   obtenerLogs(): Observable<Log[]> {
     const logRef = collection(this.firestore, 'logs');
     return collectionData(logRef, { idField: 'id'}) as Observable<Log[]>;
+  }
+
+
+
+  /***************************** ENCUESTA *****************************/
+
+  agregarEncuesta(encuesta: Encuesta) {
+    const encuestaRef = collection(this.firestore, 'encuestas');
+    return addDoc(encuestaRef, encuesta).catch(err => {
+      console.log(err);
+    });
+  }
+
+  obtenerEncuestas(): Observable<Encuesta[]> {
+    const encuestaRef = collection(this.firestore, 'encuestas');
+    return collectionData(encuestaRef, { idField: 'id'}) as Observable<Encuesta[]>;
   }
 
 
